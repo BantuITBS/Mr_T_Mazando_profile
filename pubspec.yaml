@@ -30,6 +30,7 @@ flutter:
     - assets/surrolink.jpeg
     - assets/TE.jpeg
     - assets/cv.jpeg
+    - assets/lease_agreement.jpeg
   fonts:
     - family: Roboto
       fonts:
