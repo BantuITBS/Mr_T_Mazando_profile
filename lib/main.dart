@@ -814,7 +814,10 @@ class WelcomeContent extends StatelessWidget {
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: [primaryColor.withOpacity(0.1), secondaryColor.withOpacity(0.1)],
+                    colors: [
+                      primaryColor.withOpacity(0.1),
+                      secondaryColor.withOpacity(0.1),
+                    ],
                   ),
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -847,7 +850,10 @@ class WelcomeContent extends StatelessWidget {
             ],
           ),
         ),
+
         const SizedBox(height: 32),
+
+        // --- Portfolio button
         Center(
           child: ElevatedButton.icon(
             onPressed: onGetStarted,
@@ -855,7 +861,9 @@ class WelcomeContent extends StatelessWidget {
               foregroundColor: Colors.white,
               backgroundColor: secondaryColor,
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25),
+              ),
               elevation: 8,
             ),
             icon: const Icon(Icons.arrow_forward, size: 18),
@@ -865,6 +873,66 @@ class WelcomeContent extends StatelessWidget {
             ),
           ),
         ),
+
+        const SizedBox(height: 24),
+
+        // --- Navigation button to explore profile sections
+        Center(
+          child: Column(
+            children: [
+              InkWell(
+                onTap: () {
+                  // Open the navigation drawer if on mobile
+                  if (Scaffold.of(context).hasDrawer) {
+                    Scaffold.of(context).openDrawer();
+                  }
+                  // For desktop, the sidebar is already visible so no action needed
+                },
+                borderRadius: BorderRadius.circular(25),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: primaryColor.withOpacity(0.9),
+                    borderRadius: BorderRadius.circular(25),
+                    boxShadow: [
+                      BoxShadow(
+                        color: primaryColor.withOpacity(0.3),
+                        blurRadius: 8,
+                        offset: const Offset(2, 4),
+                      ),
+                    ],
+                    border: Border.all(color: primaryColor.withOpacity(0.3)),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.explore, color: Colors.white, size: 20),
+                      const SizedBox(width: 8),
+                      Text(
+                        "Explore All Sections",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                "View Professional Summary, Skills, Experience & more",
+                style: TextStyle(
+                  fontSize: 12,
+                  color: primaryColor.withOpacity(0.7),
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+
         const SizedBox(height: 32),
       ],
     );
@@ -1273,7 +1341,7 @@ class ProfessionalExperienceContent extends StatelessWidget {
           primaryColor: primaryColor,
           secondaryColor: secondaryColor,
         ),
-ExperienceCard(
+        ExperienceCard(
           company: "NNT Strategic Solutions, Pretoria",
           role: "Software Developer",
           period: "January 2025 – Present",
@@ -1862,20 +1930,20 @@ class ProjectsContent extends StatelessWidget {
             color: Colors.white,
             borderRadius: const BorderRadius.all(Radius.circular(12)),
             boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 6, offset: const Offset(0, 3))],
-          ),
-          child: Text(
-            "This portfolio presents recent projects (2022–2025) that reflect my expertise in Software Development, Data Science, and Analytics. These initiatives demonstrate effective stakeholder engagement and collaboration with clients, executives, and cross-functional teams to deliver innovative, data-driven solutions. Leveraging Advanced Analytics, Power BI, and cutting-edge AI technologies including Large Language Models (LLMs) and Retrieval-Augmented Generation (RAG), the projects enhance business operations and user experiences, providing actionable insights to support strategic decision-making.",
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-        ),
-        const SizedBox(height: 16),
-        Text("Info-Tech Business Solutions (iTBS) and Entsika Consulting Projects", style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 16, color: primaryColor)),
-        const SizedBox(height: 12),
-        ProjectGrid(
-          onProjectTap: onProjectTap,
-          primaryColor: primaryColor,
-          secondaryColor: secondaryColor,
-        ),
+      ),
+      child: Text(
+        "This portfolio presents recent projects (2022–2025) that reflect my expertise in Software Development, Data Science, and Analytics. These initiatives demonstrate effective stakeholder engagement and collaboration with clients, executives, and cross-functional teams to deliver innovative, data-driven solutions. Leveraging Advanced Analytics, Power BI, and cutting-edge AI technologies including Large Language Models (LLMs) and Retrieval-Augmented Generation (RAG), the projects enhance business operations and user experiences, providing actionable insights to support strategic decision-making.",
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
+    ),
+    const SizedBox(height: 16),
+    Text("Info-Tech Business Solutions (iTBS) and Entsika Consulting Projects", style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 16, color: primaryColor)),
+    const SizedBox(height: 12),
+    ProjectGrid(
+      onProjectTap: onProjectTap,
+      primaryColor: primaryColor,
+      secondaryColor: secondaryColor,
+    ),
       ],
     );
   }
