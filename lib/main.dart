@@ -143,7 +143,7 @@ class EducationTile extends StatelessWidget {
           border: Border.all(color: primaryColor.withOpacity(0.1)),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -158,7 +158,7 @@ class EducationTile extends StatelessWidget {
                     ),
                     child: Icon(Icons.school, color: primaryColor),
                   ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: 12),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,8 +171,9 @@ class EducationTile extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 4),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 4,
                           children: [
                             if (launchURL != null)
                               _linkText(institution, launchURL!)
@@ -180,10 +181,8 @@ class EducationTile extends StatelessWidget {
                               _linkText(institution, schoolURL!)
                             else
                               Text(institution, style: const TextStyle(fontSize: 16)),
-                            if (systemURL != null) ...[
-                              const SizedBox(width: 6),
-                              _linkText("(Cambridge International Exams)", systemURL!)
-                            ],
+                            if (systemURL != null)
+                              _linkText("(Cambridge International Exams)", systemURL!),
                           ],
                         ),
                       ],
@@ -375,14 +374,28 @@ class _CVHomePageState extends State<CVHomePage> with SingleTickerProviderStateM
           );
         },
       ),
-      title: const Text(
-        "Takawira Mazando",
-        style: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
+      title: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            "Takawira Mazando",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          Text(
+            "Software Developer | Data Scientist | AI Engineer",
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.white.withOpacity(0.9),
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
+      centerTitle: true,
       actions: [
         _buildContactPopupMenu(),
       ],
@@ -479,18 +492,11 @@ class _CVHomePageState extends State<CVHomePage> with SingleTickerProviderStateM
   }
 
   Widget _buildMobileLayout() {
-    return Column(
-      children: [
-        _buildMainHeader(),
-        Expanded(
-          child: SingleChildScrollView(
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              child: _getContent(_currentSection),
-            ),
-          ),
-        ),
-      ],
+    return SingleChildScrollView(
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        child: _getContent(_currentSection),
+      ),
     );
   }
 
@@ -553,7 +559,6 @@ class _CVHomePageState extends State<CVHomePage> with SingleTickerProviderStateM
   Widget _buildMainHeader() {
     return Container(
       width: double.infinity,
-      height: 100,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -800,11 +805,11 @@ class WelcomeContent extends StatelessWidget {
       children: [
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
           child: Column(
             children: [
               Container(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
@@ -816,9 +821,9 @@ class WelcomeContent extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      "welcome to my professional profile",
+                      "Welcome to My Professional Profile",
                       style: TextStyle(
-                        fontSize: 26,
+                        fontSize: 22,
                         fontWeight: FontWeight.bold,
                         color: primaryColor,
                         fontFamily: 'PlayfairDisplay',
@@ -826,11 +831,11 @@ class WelcomeContent extends StatelessWidget {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 12),
                     Text(
-                     "Designing, developing, integrating, and deploying solutions that drive success",
+                      "Designing, developing, integrating, and deploying solutions that drive success",
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 14,
                         color: primaryColor.withOpacity(0.8),
                         fontWeight: FontWeight.w300,
                       ),
@@ -842,103 +847,26 @@ class WelcomeContent extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: _buildFeatureCard(
-                  context,
-                  "Professional Experience",
-                  "15+ years experience of technical & leadership expertise",
-                  const Color(0xFFE3F2FD),
-                  Icons.work,
-                ),
-              ),
-
-              const SizedBox(width: 16),
-              Expanded(
-                child: _buildFeatureCard(
-                  context,
-                  "Technical Expertise",
-                  "Full-stack Python, Dart & AI (LLM-RAG) Technologies",
-                  const Color(0xFFE8F5E8),
-                  Icons.code,
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: _buildFeatureCard(
-                  context,
-                  "Projects Portfolio",
-                  "Proven track record of Innovative solutions on GitHub",
-                  const Color(0xFFF3E5F5),
-                  Icons.folder,
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: _buildFeatureCard(
-                  context,
-                  "Academic Profile",
-                  "B.Sc (Hons), Programming, Data Science, Data Analytics, ML & AI",
-                  const Color(0xFFE0E0E0),
-                  Icons.school,
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 40),
+        const SizedBox(height: 32),
         Center(
           child: ElevatedButton.icon(
             onPressed: onGetStarted,
             style: ElevatedButton.styleFrom(
               foregroundColor: Colors.white,
               backgroundColor: secondaryColor,
-              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 18),
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
               elevation: 8,
             ),
-            icon: const Icon(Icons.arrow_forward, size: 20),
+            icon: const Icon(Icons.arrow_forward, size: 18),
             label: const Text(
               "View Projects Portfolio",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
             ),
           ),
         ),
-        const SizedBox(height: 40),
+        const SizedBox(height: 32),
       ],
-    );
-  }
-
-  Widget _buildFeatureCard(BuildContext context, String title, String subtitle, Color backgroundColor, IconData icon) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 15, offset: const Offset(0, 5))],
-      ),
-      child: Column(
-        children: [
-          Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              color: primaryColor.withOpacity(0.1),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(icon, color: primaryColor, size: 24),
-          ),
-          const SizedBox(height: 12),
-          Text(title, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700, color: Colors.grey.shade800), textAlign: TextAlign.center),
-          const SizedBox(height: 8),
-          Text(subtitle, style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.grey.shade600, height: 1.4), textAlign: TextAlign.center),
-        ],
-      ),
     );
   }
 }
@@ -951,7 +879,7 @@ class HobbiesContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
@@ -965,19 +893,19 @@ class HobbiesContent extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(Icons.favorite, color: primaryColor, size: 28),
+              Icon(Icons.favorite, color: primaryColor, size: 24),
               const SizedBox(width: 12),
               Text(
                 "Hobbies & Interests",
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: primaryColor,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
           _buildHobbyItem(Icons.family_restroom, "Family Time", "Having a great time at home with my family"),
           _buildHobbyItem(Icons.sports_baseball, "Live Sports", "Watching live sport events"),
           _buildHobbyItem(Icons.beach_access, "Holidays", "Going on holidays with family"),
@@ -991,8 +919,8 @@ class HobbiesContent extends StatelessWidget {
 
   Widget _buildHobbyItem(IconData icon, String title, String description) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -1001,15 +929,15 @@ class HobbiesContent extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 40,
-            height: 40,
+            width: 36,
+            height: 36,
             decoration: BoxDecoration(
               color: primaryColor.withOpacity(0.1),
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, color: primaryColor, size: 20),
+            child: Icon(icon, color: primaryColor, size: 18),
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1017,7 +945,7 @@ class HobbiesContent extends StatelessWidget {
                 Text(
                   title,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: primaryColor,
                   ),
@@ -1025,7 +953,7 @@ class HobbiesContent extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   description,
-                  style: const TextStyle(fontSize: 14, height: 1.4),
+                  style: const TextStyle(fontSize: 12, height: 1.4),
                 ),
               ],
             ),
@@ -1044,7 +972,7 @@ class ProfessionalSummaryContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -1052,7 +980,7 @@ class ProfessionalSummaryContent extends StatelessWidget {
       ),
       child: Text(
         "Accomplished Data Scientist and Software Developer with over 15 years of experience, I transform complex data into actionable insights that drive strategic success. Proficient in Python, AI/ML, JavaScript, TypeScript, SQL, Dart, and VBA, I specialize in crafting innovative mobile and web solutions. I contributed to high-impact projects, including a R2.4B inventory optimization for Transnet, utilizing Power BI, TensorFlow, Spark, and Hadoop to optimize supply chain efficiency and auditing processes. With a background in laboratory Analytical Science at the onset of my career, I have an keen eye for detail, I excel in stakeholder engagement, mentoring, and technical reporting. Skilled in Agile methodologies, GDPR/POPIA compliance, SCM analytics, and CAATs, I deliver secure, impactful, and compliant solutions.",
-        style: Theme.of(context).textTheme.bodyLarge,
+        style: Theme.of(context).textTheme.bodyMedium,
       ),
     );
   }
@@ -1190,7 +1118,7 @@ class TechnicalSkillsContent extends StatelessWidget {
 
   Widget _buildSkillCategory(BuildContext context, {required IconData icon, required String title, required List<String> skills}) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -1212,7 +1140,7 @@ class TechnicalSkillsContent extends StatelessWidget {
             spacing: 8,
             runSpacing: 8,
             children: skills.map((skill) => Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               decoration: BoxDecoration(
                 color: secondaryColor.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(16),
@@ -1248,8 +1176,8 @@ class SkillGrid extends StatelessWidget {
         final isMobile = sizingInformation.isMobile;
 
         return Wrap(
-          spacing: 16,
-          runSpacing: 16,
+          spacing: 12,
+          runSpacing: 12,
           children: [
             SkillItem(icon: Icons.group, text: "Team Leadership: Guided cross-functional teams of developers, analysts, and scientists to achieve project goals, fostering collaboration and innovation.", width: isMobile ? double.infinity : 300),
             SkillItem(icon: Icons.assignment, text: "Project Management: Oversaw end-to-end delivery of complex technical projects, ensuring timely completion within budget and scope.", width: isMobile ? double.infinity : 300),
@@ -1345,6 +1273,94 @@ class ProfessionalExperienceContent extends StatelessWidget {
           primaryColor: primaryColor,
           secondaryColor: secondaryColor,
         ),
+ExperienceCard(
+          company: "NNT Strategic Solutions, Pretoria",
+          role: "Software Developer",
+          period: "January 2025 – Present",
+          responsibilities: [
+            _buildResponsibilityItem(FontAwesomeIcons.laptopCode, "Led teams to build AI-powered platforms and mobile apps with Django, Flask, FastAPI, Flutter, and Power BI."),
+            _buildResponsibilityItem(FontAwesomeIcons.palette, "Designed responsive interfaces with HTML5, CSS3, JavaScript, TypeScript, React, Angular, and Vue.js for user engagement."),
+            _buildResponsibilityItem(FontAwesomeIcons.server, "Built scalable and secure Django applications with RESTful APIs, GraphQL, and JWT authentication."),
+            _buildResponsibilityItem(FontAwesomeIcons.code, "Developed custom Django models, views, templates, and forms to meet complex business requirements."),
+            _buildResponsibilityItem(FontAwesomeIcons.database, "Implemented Django ORM for efficient database operations and query optimization."),
+            _buildResponsibilityItem(FontAwesomeIcons.userShield, "Utilized Django's built-in authentication and authorization system for secure user management."),
+            _buildResponsibilityItem(FontAwesomeIcons.box, "Integrated third-party Django packages and libraries (e.g., Django REST framework, Django Channels) to enhance functionality."),
+            _buildResponsibilityItem(FontAwesomeIcons.projectDiagram, "Designed and implemented database schema and migrations using Django's migration framework."),
+            _buildResponsibilityItem(FontAwesomeIcons.plug, "Built and consumed APIs using Django REST framework, ensuring API security and performance."),
+            _buildResponsibilityItem(FontAwesomeIcons.bolt, "Implemented caching mechanisms (e.g., Redis, Memcached) to improve application performance."),
+            _buildResponsibilityItem(FontAwesomeIcons.tasks, "Utilized Celery and RabbitMQ for asynchronous task processing and job queuing."),
+            _buildResponsibilityItem(FontAwesomeIcons.comments, "Implemented real-time functionality using Django Channels and WebSockets."),
+            _buildResponsibilityItem(FontAwesomeIcons.flask, "Developed Flask applications with RESTful APIs, JWT authentication, and database integration (e.g., SQLAlchemy, Flask-SQLAlchemy)."),
+            _buildResponsibilityItem(FontAwesomeIcons.docker, "Built microservices with Flask and containerization using Docker."),
+            _buildResponsibilityItem(FontAwesomeIcons.js, "Implemented frontend functionality using JavaScript, TypeScript, and frameworks like React, Angular, and Vue.js."),
+            _buildResponsibilityItem(FontAwesomeIcons.toolbox, "Utilized JavaScript libraries like jQuery, Lodash, and Moment.js to enhance frontend functionality."),
+            _buildResponsibilityItem(FontAwesomeIcons.mobile, "Implemented responsive design using CSS3, Sass, and Less."),
+            _buildResponsibilityItem(FontAwesomeIcons.vial, "Ensured code quality and best practices through code reviews, testing (unit, integration, and functional tests), and continuous integration."),
+            _buildResponsibilityItem(FontAwesomeIcons.cloud, "Deployed applications on cloud platforms (e.g., AWS, Google Cloud, Azure) and containerization using Docker."),
+            _buildResponsibilityItem(FontAwesomeIcons.cog, "Configured and managed applications using environment variables and configuration files."),
+            _buildResponsibilityItem(FontAwesomeIcons.chartLine, "Implemented monitoring and logging tools (e.g., Prometheus, Grafana, ELK Stack) to track application performance and errors."),
+            _buildResponsibilityItem(FontAwesomeIcons.robot, "Built ML models with scikit-learn, TensorFlow, PyTorch, and AI tools (Lovable AI, Grok) for predictive analytics and NLP."),
+            _buildResponsibilityItem(FontAwesomeIcons.fire, "Integrated Supabase, Firebase, and Power Automate for real-time workflows."),
+            _buildResponsibilityItem(FontAwesomeIcons.handsHelping, "Mentored developers, aligning solutions with business goals via stakeholder collaboration."),
+            _buildResponsibilityItem(FontAwesomeIcons.shieldAlt, "Applied Agile and GDPR/POPIA compliance for secure, innovative solutions."),
+          ],
+          projects: [
+            LinkProject("Performa360 Platform (2024–2025)", ""),
+            LinkProject("Customer Churn Prediction System (2025)", ""),
+            LinkProject("AfroDating Mobile Application (2024–Present)", ""),
+            LinkProject("AI-Powered Web Platform (WebCraft, 2025)", ""),
+            LinkProject("AuPair Connect Platform (2025)", ""),
+            LinkProject("LandLink Platform (2025)", ""),
+            LinkProject("SurroLink Surrogacy Platform (2025)", ""),
+          ],
+          primaryColor: primaryColor,
+          secondaryColor: secondaryColor,
+        ),
+        ExperienceCard(
+          company: "Lucient Engineering & Construction, Witbank",
+          role: "Data Scientist",
+          period: "January 2015 – December 2020",
+          responsibilities: [
+            _buildResponsibilityItem(FontAwesomeIcons.database, "Extracted, cleaned, and consolidated operational data from ERP systems, maintenance logs, SCADA systems, and equipment sensors for dragliners and other mining machinery."),
+            _buildResponsibilityItem(FontAwesomeIcons.brain, "Developed predictive maintenance models using ML and statistical methods to forecast equipment failures and reduce unplanned downtime."),
+            _buildResponsibilityItem(FontAwesomeIcons.chartBar, "Monitored equipment KPIs including utilization, cycle times, and repair turnaround, identifying bottlenecks and operational inefficiencies."),
+            _buildResponsibilityItem(FontAwesomeIcons.tools, "Analyzed historical shutdowns and maintenance schedules to optimize resource allocation and minimize operational downtime."),
+            _buildResponsibilityItem(FontAwesomeIcons.table, "Built dashboards in Power BI and Tableau for real-time monitoring of equipment health, maintenance status, and project progress."),
+            _buildResponsibilityItem(FontAwesomeIcons.wallet, "Evaluated maintenance costs, spare parts usage, and contractor performance to identify opportunities for cost optimization."),
+            _buildResponsibilityItem(FontAwesomeIcons.users, "Collaborated with engineering, maintenance, and project teams to translate data insights into actionable recommendations for operational improvements."),
+            _buildResponsibilityItem(FontAwesomeIcons.shieldAlt, "Monitored safety and compliance metrics, supporting risk mitigation and ensuring adherence to regulatory standards."),
+            _buildResponsibilityItem(FontAwesomeIcons.search, "Performed exploratory data analysis (EDA) on sensor and operational data to identify trends, anomalies, and potential equipment issues."),
+            _buildResponsibilityItem(FontAwesomeIcons.chalkboardTeacher, "Presented analytical findings to stakeholders through reports, dashboards, and data-driven storytelling to support decision-making."),
+            _buildResponsibilityItem(FontAwesomeIcons.rocket, "Stayed current with industry trends, advanced analytics, and emerging AI/ML technologies to enhance mining operations and predictive capabilities."),
+          ],
+          primaryColor: primaryColor,
+          secondaryColor: secondaryColor,
+        ),
+        ExperienceCard(
+          company: "Dairiboard Limited, Harare, Zimbabwe",
+          role: "Senior Microbiologist / Laboratory Analyst",
+          period: "January 2005 – December 2014",
+          responsibilities: [
+            _buildResponsibilityItem(FontAwesomeIcons.vial, "Conducted lab tests on inbound, inline, and outbound dairy product samples, ensuring ISO-compliant safety and quality."),
+            _buildResponsibilityItem(FontAwesomeIcons.chartLine, "Analyzed SAP QM (LIMS) data for crucial product safety and quality insights, identifying trends and areas for improvement."),
+            _buildResponsibilityItem(FontAwesomeIcons.fileAlt, "Presented monthly stakeholder reports on production and quality metrics, highlighting key findings and recommendations."),
+            _buildResponsibilityItem(FontAwesomeIcons.clipboardList, "Developed and updated ISO-aligned SOPs and experimental methodologies for laboratory analysis of dairy products."),
+            _buildResponsibilityItem(FontAwesomeIcons.userTie, "Supervised and managed junior staff, conducting KPI reviews, mentoring, and ensuring adherence to laboratory protocols."),
+            _buildResponsibilityItem(FontAwesomeIcons.search, "Extracted, collated, validated, and analyzed production data for quality control, identifying opportunities for process improvement."),
+            _buildResponsibilityItem(FontAwesomeIcons.clipboardCheck, "Participated in internal food safety and quality audits, ensuring compliance with regulatory requirements and company standards."),
+            _buildResponsibilityItem(FontAwesomeIcons.award, "Ensured data met stringent quality control standards, flagging any issues and implementing corrective actions."),
+            _buildResponsibilityItem(FontAwesomeIcons.handsHelping, "Collaborated with production, supply chain, and regulatory affairs teams to align laboratory tests and data initiatives with organizational goals."),
+            _buildResponsibilityItem(FontAwesomeIcons.microscope, "Conducted microbiological testing and analysis of dairy products, including pathogen detection and enumeration."),
+            _buildResponsibilityItem(FontAwesomeIcons.flask, "Performed biochemical testing and analysis of dairy products, including compositional analysis and quality control."),
+            _buildResponsibilityItem(FontAwesomeIcons.lightbulb, "Developed and implemented new laboratory methods and techniques to improve testing efficiency and accuracy."),
+            _buildResponsibilityItem(FontAwesomeIcons.tools, "Maintained laboratory equipment and ensured calibration and validation of instruments."),
+            _buildResponsibilityItem(FontAwesomeIcons.checkDouble, "Participated in method validation and verification studies to ensure accuracy and precision of laboratory results."),
+            _buildResponsibilityItem(FontAwesomeIcons.userShield, "Collaborated with quality assurance team to develop and implement quality control measures and ensure compliance with regulatory requirements."),
+            _buildResponsibilityItem(FontAwesomeIcons.chartBar, "Designed and developed interactive Power BI dashboards to visualize laboratory results, enabling real-time monitoring of dairy product safety and quality trends."),
+          ],
+          primaryColor: primaryColor,
+          secondaryColor: secondaryColor,
+        ),
       ],
     );
   }
@@ -1357,7 +1373,7 @@ class ProfessionalExperienceContent extends StatelessWidget {
         children: [
           Icon(icon, size: 16, color: secondaryColor),
           const SizedBox(width: 8),
-          Expanded(child: Text(text, style: const TextStyle(fontSize: 14, height: 1.4))),
+          Expanded(child: Text(text, style: const TextStyle(fontSize: 12, height: 1.4))),
         ],
       ),
     );
@@ -1379,7 +1395,7 @@ class ExperienceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -1524,7 +1540,7 @@ class CertificationTile extends StatelessWidget {
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Container(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Colors.white, Colors.grey.shade50]),
           borderRadius: BorderRadius.circular(12),
@@ -1545,7 +1561,7 @@ class CertificationTile extends StatelessWidget {
                   ),
                   child: Icon(Icons.verified, color: primaryColor, size: 24),
                 ),
-                const SizedBox(width: 16),
+                const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -1560,18 +1576,18 @@ class CertificationTile extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
-            Divider(height: 1, color: Colors.grey.shade300),
-            const SizedBox(height: 16),
-            Text("Courses (${courses.length}):", style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600, color: Colors.grey.shade800)),
             const SizedBox(height: 12),
+            Divider(height: 1, color: Colors.grey.shade300),
+            const SizedBox(height: 12),
+            Text("Courses (${courses.length}):", style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600, color: Colors.grey.shade800)),
+            const SizedBox(height: 8),
             ...courses.map((course) => Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(width: 24, child: Text(course.title.substring(0, 2), style: const TextStyle(fontSize: 16))),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 24, child: Text(course.title.substring(0, 2), style: const TextStyle(fontSize: 14))),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: course.verificationUrl != null ? GestureDetector(
                       onTap: () => launchURL(course.verificationUrl!),
@@ -1586,10 +1602,10 @@ class CertificationTile extends StatelessWidget {
                 ],
               ),
             )),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             if (verification != null) ...[
               Divider(height: 1, color: Colors.grey.shade300),
-              const SizedBox(height: 16),
+              const SizedBox(height: 12),
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
@@ -1678,7 +1694,7 @@ class AccomplishmentList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -1687,18 +1703,18 @@ class AccomplishmentList extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: items.map((item) => Padding(
-          padding: const EdgeInsets.only(bottom: 16.0),
+          padding: const EdgeInsets.only(bottom: 12.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: 40,
-                height: 40,
+                width: 36,
+                height: 36,
                 decoration: BoxDecoration(
                   color: primaryColor.withOpacity(0.1),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(item.icon, size: 20, color: primaryColor),
+                child: Icon(item.icon, size: 18, color: primaryColor),
               ),
               const SizedBox(width: 12),
               Expanded(child: Text(item.text, style: Theme.of(context).textTheme.bodyMedium)),
@@ -1759,7 +1775,7 @@ class ReferenceTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        contentPadding: const EdgeInsets.all(16),
+        contentPadding: const EdgeInsets.all(12),
         leading: Icon(Icons.person, color: primaryColor),
         title: Text(name, style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold)),
         subtitle: Column(
@@ -1788,7 +1804,7 @@ class ProjectsContent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -1796,12 +1812,12 @@ class ProjectsContent extends StatelessWidget {
           ),
           child: Text(
             "This portfolio presents recent projects (2022–2025) that reflect my expertise in Software Development, Data Science, and Analytics. These initiatives demonstrate effective stakeholder engagement and collaboration with clients, executives, and cross-functional teams to deliver innovative, data-driven solutions. Leveraging Advanced Analytics, Power BI, and cutting-edge AI technologies including Large Language Models (LLMs) and Retrieval-Augmented Generation (RAG), the projects enhance business operations and user experiences, providing actionable insights to support strategic decision-making.",
-            style: Theme.of(context).textTheme.bodyLarge,
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
         ),
-        const SizedBox(height: 24),
-        Text("Info-Tech Business Solutions (iTBS) and Entsika Consulting Projects", style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 18, color: primaryColor)),
         const SizedBox(height: 16),
+        Text("Info-Tech Business Solutions (iTBS) and Entsika Consulting Projects", style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 16, color: primaryColor)),
+        const SizedBox(height: 12),
         ProjectGrid(
           onProjectTap: onProjectTap,
           primaryColor: primaryColor,
@@ -1830,10 +1846,10 @@ class ProjectGrid extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: crossAxisCount,
-            crossAxisSpacing: 16,
-            mainAxisSpacing: 16,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
             childAspectRatio: 0.9,
-            mainAxisExtent: 300,
+            mainAxisExtent: 280,
           ),
           itemCount: projects.length,
           itemBuilder: (context, index) {
@@ -1875,17 +1891,17 @@ class ProjectCard extends StatelessWidget {
                 child: project.imagePath.isNotEmpty ? Image.asset(
                   project.imagePath,
                   width: double.infinity,
-                  height: 180,
+                  height: 160,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
                     return Container(
                       color: secondaryColor.withOpacity(0.1),
-                      child: Center(child: Icon(Icons.business_center, size: 50, color: primaryColor)),
+                      child: Center(child: Icon(Icons.business_center, size: 40, color: primaryColor)),
                     );
                   },
                 ) : Container(
                   color: secondaryColor.withOpacity(0.1),
-                  child: Center(child: Icon(Icons.business_center, size: 50, color: primaryColor)),
+                  child: Center(child: Icon(Icons.business_center, size: 40, color: primaryColor)),
                 ),
               ),
             ),
@@ -1917,10 +1933,10 @@ class ProjectDetailsModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      insetPadding: const EdgeInsets.all(20),
+      insetPadding: const EdgeInsets.all(16),
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16))),
       child: Container(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(16),
         constraints: const BoxConstraints(maxWidth: 600),
         child: SingleChildScrollView(
           child: Column(
@@ -1929,15 +1945,15 @@ class ProjectDetailsModal extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Expanded(child: Text(project.title, style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: primaryColor))),
+                  Expanded(child: Text(project.title, style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: primaryColor, fontSize: 18))),
                   IconButton(icon: Icon(Icons.close, color: primaryColor), onPressed: () => Navigator.of(context).pop()),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 12),
               ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(12)),
                 child: SizedBox(
-                  height: 200,
+                  height: 180,
                   width: double.infinity,
                   child: project.imagePath.isNotEmpty ? Image.asset(
                     project.imagePath,
@@ -1946,27 +1962,27 @@ class ProjectDetailsModal extends StatelessWidget {
                     errorBuilder: (context, error, stackTrace) {
                       return Container(
                         color: secondaryColor.withOpacity(0.1),
-                        child: Center(child: Icon(Icons.business_center, size: 60, color: primaryColor)),
+                        child: Center(child: Icon(Icons.business_center, size: 50, color: primaryColor)),
                       );
                     },
                   ) : Container(
                     color: secondaryColor.withOpacity(0.1),
-                    child: Center(child: Icon(Icons.business_center, size: 60, color: primaryColor)),
+                    child: Center(child: Icon(Icons.business_center, size: 50, color: primaryColor)),
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
-              Text(project.description, style: Theme.of(context).textTheme.bodyLarge),
-              const SizedBox(height: 16),
-              Text("Role:", style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 18, color: primaryColor)),
+              const SizedBox(height: 12),
+              Text(project.description, style: Theme.of(context).textTheme.bodyMedium),
+              const SizedBox(height: 12),
+              Text("Role:", style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 16, color: primaryColor)),
               const SizedBox(height: 8),
-              Text(project.role, style: Theme.of(context).textTheme.bodyLarge),
-              const SizedBox(height: 16),
-              Text("Contributions:", style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 18, color: primaryColor)),
+              Text(project.role, style: Theme.of(context).textTheme.bodyMedium),
+              const SizedBox(height: 12),
+              Text("Contributions:", style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 16, color: primaryColor)),
               const SizedBox(height: 8),
               BulletList(project.contributions, primaryColor: primaryColor),
-              const SizedBox(height: 16),
-              Text("Outcomes:", style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 18, color: primaryColor)),
+              const SizedBox(height: 12),
+              Text("Outcomes:", style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 16, color: primaryColor)),
               const SizedBox(height: 8),
               BulletList(project.outcomes, primaryColor: primaryColor),
             ],
