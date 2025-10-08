@@ -41,7 +41,6 @@ class CVApp extends StatelessWidget {
           elevation: 3,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
-          color: Colors.white,
         ),
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
@@ -56,6 +55,45 @@ class CVApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
     );
   }
+}
+
+class Project {
+  final String title;
+  final String description;
+  final String role;
+  final List<String> contributions;
+  final List<String> outcomes;
+  final String imagePath;
+
+  const Project({
+    required this.title,
+    required this.description,
+    required this.role,
+    required this.contributions,
+    required this.outcomes,
+    required this.imagePath,
+  });
+}
+
+class LinkProject {
+  final String name;
+  final String url;
+
+  const LinkProject(this.name, this.url);
+}
+
+class CourseItem {
+  final String title;
+  final String? verificationUrl;
+
+  const CourseItem(this.title, this.verificationUrl);
+}
+
+class AccomplishmentItem {
+  final IconData icon;
+  final String text;
+
+  const AccomplishmentItem({required this.icon, required this.text});
 }
 
 class EducationTile extends StatelessWidget {
@@ -92,47 +130,86 @@ class EducationTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      color: primaryColor.withOpacity(0.05),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              degree,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                if (launchURL != null)
-                  _linkText(institution, launchURL!)
-                else if (schoolURL != null)
-                  _linkText(institution, schoolURL!)
-                else
-                  Text(institution, style: const TextStyle(fontSize: 16)),
-                if (systemURL != null) ...[
-                  const SizedBox(width: 6),
-                  _linkText("(Cambridge International Exams)", systemURL!)
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Colors.white, primaryColor.withOpacity(0.05)],
+          ),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: primaryColor.withOpacity(0.1)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 48,
+                    height: 48,
+                    decoration: BoxDecoration(
+                      color: primaryColor.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(Icons.school, color: primaryColor),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          degree,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            if (launchURL != null)
+                              _linkText(institution, launchURL!)
+                            else if (schoolURL != null)
+                              _linkText(institution, schoolURL!)
+                            else
+                              Text(institution, style: const TextStyle(fontSize: 16)),
+                            if (systemURL != null) ...[
+                              const SizedBox(width: 6),
+                              _linkText("(Cambridge International Exams)", systemURL!)
+                            ],
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
-              ],
-            ),
-            const SizedBox(height: 4),
-            Text(
-              period,
-              style: const TextStyle(
-                fontSize: 14,
-                fontStyle: FontStyle.italic,
               ),
-            ),
-            const SizedBox(height: 8),
-            Text(details),
-          ],
+              const SizedBox(height: 12),
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: primaryColor.withOpacity(0.05),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  period,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(details, style: const TextStyle(fontSize: 14, height: 1.5)),
+            ],
+          ),
         ),
       ),
     );
@@ -216,17 +293,17 @@ class _CVHomePageState extends State<CVHomePage> with SingleTickerProviderStateM
     }
   }
 
-Future<void> _openWhatsApp(String phoneNumber) async {
-  final cleanedNumber = phoneNumber.replaceAll(RegExp(r'[^0-9+]'), '');
-  final uri = Uri.parse('https://wa.me/$cleanedNumber');
-  if (await canLaunchUrl(uri)) {
-    await launchUrl(uri, mode: LaunchMode.externalApplication);
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Could not launch WhatsApp for $phoneNumber')),
-    );
+  Future<void> _openWhatsApp(String phoneNumber) async {
+    final cleanedNumber = phoneNumber.replaceAll(RegExp(r'[^0-9+]'), '');
+    final uri = Uri.parse('https://wa.me/$cleanedNumber');
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not launch WhatsApp for $phoneNumber')),
+      );
+    }
   }
-}
 
   void _updateSection(String section) {
     setState(() {
@@ -383,7 +460,8 @@ Future<void> _openWhatsApp(String phoneNumber) async {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            _buildDrawerItem(Icons.home, 'Welcome', 'welcome', _lightColor, Colors.red),
+            _buildDrawerItem(Icons.home, '', 'welcome', _lightColor, Colors.red),
+            _buildDrawerItem(Icons.description, 'Full CV', 'full_cv', _lightColor, _secondaryColor),
             _buildDrawerItem(Icons.person, 'Professional Summary', 'summary', _lightColor, Colors.orange),
             _buildDrawerItem(Icons.build, 'Technical Skills', 'skills', _lightColor, Colors.yellow[700]!),
             _buildDrawerItem(Icons.people, 'Soft Skills', 'soft_skills', _lightColor, Colors.green),
@@ -391,9 +469,9 @@ Future<void> _openWhatsApp(String phoneNumber) async {
             _buildDrawerItem(Icons.school, 'Education', 'education', _lightColor, Colors.indigo),
             _buildDrawerItem(Icons.card_membership, 'Certifications', 'certifications', _lightColor, Colors.purple),
             _buildDrawerItem(Icons.emoji_events, 'Accomplishments', 'accomplishments', _lightColor, Colors.pink),
-            _buildDrawerItem(Icons.people_outline, 'References', 'references', _lightColor, Colors.teal),
             _buildDrawerItem(Icons.folder, 'Projects', 'projects', _lightColor, Colors.cyan),
-            _buildDrawerItem(Icons.description, 'Full CV', 'full_cv', _lightColor, _secondaryColor),
+            _buildDrawerItem(Icons.favorite, 'Hobbies & Interests', 'hobbies', _lightColor, Colors.teal),
+            _buildDrawerItem(Icons.people_outline, 'References', 'references', _lightColor, Colors.teal),
           ],
         ),
       ),
@@ -442,7 +520,8 @@ Future<void> _openWhatsApp(String phoneNumber) async {
                 child: ListView(
                   children: [
                     const SizedBox(height: 20),
-                    _buildSidebarItem(Icons.home, 'Welcome', 'welcome', Colors.red),
+                    _buildSidebarItem(Icons.home, '', 'welcome', Colors.red),
+                    _buildSidebarItem(Icons.description, 'Full CV', 'full_cv', _secondaryColor),
                     _buildSidebarItem(Icons.person, 'Professional Summary', 'summary', Colors.orange),
                     _buildSidebarItem(Icons.build, 'Technical Skills', 'skills', Colors.yellow[700]!),
                     _buildSidebarItem(Icons.people, 'Soft Skills', 'soft_skills', Colors.green),
@@ -450,9 +529,9 @@ Future<void> _openWhatsApp(String phoneNumber) async {
                     _buildSidebarItem(Icons.school, 'Education', 'education', Colors.indigo),
                     _buildSidebarItem(Icons.card_membership, 'Certifications', 'certifications', Colors.purple),
                     _buildSidebarItem(Icons.emoji_events, 'Accomplishments', 'accomplishments', Colors.pink),
-                    _buildSidebarItem(Icons.people_outline, 'References', 'references', Colors.teal),
                     _buildSidebarItem(Icons.folder, 'Projects', 'projects', Colors.cyan),
-                    _buildSidebarItem(Icons.description, 'Full CV', 'full_cv', _secondaryColor),
+                    _buildSidebarItem(Icons.favorite, 'Hobbies & Interests', 'hobbies', Colors.teal),
+                    _buildSidebarItem(Icons.people_outline, 'References', 'references', Colors.teal),
                   ],
                 ),
               ),
@@ -527,7 +606,6 @@ Future<void> _openWhatsApp(String phoneNumber) async {
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.white.withOpacity(0.9),
-                    fontStyle: FontStyle.italic,
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -681,6 +759,8 @@ Future<void> _openWhatsApp(String phoneNumber) async {
           primaryColor: _primaryColor,
           secondaryColor: _secondaryColor,
         );
+      case 'hobbies':
+        return HobbiesContent(primaryColor: _primaryColor);
       default:
         return WelcomeContent(
           primaryColor: _primaryColor,
@@ -720,63 +800,97 @@ class WelcomeContent extends StatelessWidget {
       children: [
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-          child: Text(
-            "Welcome to my Professional Profile",
-            style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-              color: primaryColor,
-              fontFamily: 'PlayfairDisplay',
-            ),
-            textAlign: TextAlign.center,
+          padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [primaryColor.withOpacity(0.1), secondaryColor.withOpacity(0.1)],
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      "welcome to my professional profile",
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                        color: primaryColor,
+                        fontFamily: 'PlayfairDisplay',
+                        height: 1.2,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                     "Designing, developing, integrating, and deploying solutions that drive success",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: primaryColor.withOpacity(0.8),
+                        fontWeight: FontWeight.w300,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
-Container(
-  padding: const EdgeInsets.symmetric(horizontal: 22),
-  child: Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Expanded(
-        child: _buildFeatureCard(
-          context,
-          "Professional Experience",
-          "15+ years experience of technical & leadership expertise",
-          const Color(0xFFE3F2FD),
-        ),
-      ),
-      const SizedBox(width: 22),
-      Expanded(
-        child: _buildFeatureCard(
-          context,
-          "Academic Profile",
-          "B.Sc (Hons), IT Certifications (Programming, Data Science, Analytics, ML, & AI)",
-          const Color(0xFFE0E0E0),
-        ),
-      ),
-      const SizedBox(width: 22),
-      Expanded(
-        child: _buildFeatureCard(
-          context,
-          "Technical Expertise",
-          "Full-stack Python, Dart & AI (LLM-RAG) Technologies",
-          const Color(0xFFE8F5E8),
-        ),
-      ),
-      const SizedBox(width: 22),
-      Expanded(
-        child: _buildFeatureCard(
-          context,
-          "Projects Portfolio",
-          "Proven track record of Innovative solutions on GitHub",
-          const Color(0xFFF3E5F5),
-        ),
-      ) // Removed the comma here
-    ],
-  ),
-),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: _buildFeatureCard(
+                  context,
+                  "Professional Experience",
+                  "15+ years experience of technical & leadership expertise",
+                  const Color(0xFFE3F2FD),
+                  Icons.work,
+                ),
+              ),
 
+              const SizedBox(width: 16),
+              Expanded(
+                child: _buildFeatureCard(
+                  context,
+                  "Technical Expertise",
+                  "Full-stack Python, Dart & AI (LLM-RAG) Technologies",
+                  const Color(0xFFE8F5E8),
+                  Icons.code,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: _buildFeatureCard(
+                  context,
+                  "Projects Portfolio",
+                  "Proven track record of Innovative solutions on GitHub",
+                  const Color(0xFFF3E5F5),
+                  Icons.folder,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: _buildFeatureCard(
+                  context,
+                  "Academic Profile",
+                  "B.Sc (Hons), Programming, Data Science, Data Analytics, ML & AI",
+                  const Color(0xFFE0E0E0),
+                  Icons.school,
+                ),
+              ),
+            ],
+          ),
+        ),
         const SizedBox(height: 40),
         Center(
           child: ElevatedButton.icon(
@@ -795,13 +909,14 @@ Container(
             ),
           ),
         ),
+        const SizedBox(height: 40),
       ],
     );
   }
 
-  Widget _buildFeatureCard(BuildContext context, String title, String subtitle, Color backgroundColor) {
+  Widget _buildFeatureCard(BuildContext context, String title, String subtitle, Color backgroundColor, IconData icon) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(16),
@@ -809,9 +924,112 @@ Container(
       ),
       child: Column(
         children: [
-          Text(title, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700, color: Colors.grey.shade800), textAlign: TextAlign.center),
+          Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              color: primaryColor.withOpacity(0.1),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: primaryColor, size: 24),
+          ),
           const SizedBox(height: 12),
+          Text(title, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700, color: Colors.grey.shade800), textAlign: TextAlign.center),
+          const SizedBox(height: 8),
           Text(subtitle, style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.grey.shade600, height: 1.4), textAlign: TextAlign.center),
+        ],
+      ),
+    );
+  }
+}
+
+class HobbiesContent extends StatelessWidget {
+  final Color primaryColor;
+
+  const HobbiesContent({super.key, required this.primaryColor});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.white, primaryColor.withOpacity(0.05)],
+        ),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.favorite, color: primaryColor, size: 28),
+              const SizedBox(width: 12),
+              Text(
+                "Hobbies & Interests",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: primaryColor,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          _buildHobbyItem(Icons.family_restroom, "Family Time", "Having a great time at home with my family"),
+          _buildHobbyItem(Icons.sports_baseball, "Live Sports", "Watching live sport events"),
+          _buildHobbyItem(Icons.beach_access, "Holidays", "Going on holidays with family"),
+          _buildHobbyItem(Icons.park, "Outdoors & Wildlife", "I love the outdoors (I'm a wildlife fanatic)"),
+          _buildHobbyItem(Icons.menu_book, "Reading", "I'm an avid reader"),
+          _buildHobbyItem(Icons.build, "Creative Solutions", "I like creating solutions even during my spare time"),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHobbyItem(IconData icon, String title, String description) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 6, offset: const Offset(0, 3))],
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: primaryColor.withOpacity(0.1),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: primaryColor, size: 20),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: primaryColor,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  description,
+                  style: const TextStyle(fontSize: 14, height: 1.4),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -1016,7 +1234,69 @@ class SoftSkillsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SkillGrid();
+    return SkillGrid();
+  }
+}
+
+class SkillGrid extends StatelessWidget {
+  const SkillGrid({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ResponsiveBuilder(
+      builder: (context, sizingInformation) {
+        final isMobile = sizingInformation.isMobile;
+
+        return Wrap(
+          spacing: 16,
+          runSpacing: 16,
+          children: [
+            SkillItem(icon: Icons.group, text: "Team Leadership: Guided cross-functional teams of developers, analysts, and scientists to achieve project goals, fostering collaboration and innovation.", width: isMobile ? double.infinity : 300),
+            SkillItem(icon: Icons.assignment, text: "Project Management: Oversaw end-to-end delivery of complex technical projects, ensuring timely completion within budget and scope.", width: isMobile ? double.infinity : 300),
+            SkillItem(icon: Icons.timeline, text: "Strategic Planning: Aligned technical solutions with business objectives, driving organizational success in data-driven initiatives.", width: isMobile ? double.infinity : 300),
+            SkillItem(icon: Icons.handshake, text: "Stakeholder Engagement: Communicated effectively with clients, executives, and cross-industry partners to align on project goals and deliverables.", width: isMobile ? double.infinity : 300),
+            SkillItem(icon: Icons.lightbulb, text: "Problem-Solving: Developed innovative solutions to complex technical and analytical challenges in development and scientific contexts.", width: isMobile ? double.infinity : 300),
+            SkillItem(icon: Icons.comment, text: "Communication: Delivered clear, concise presentations and technical reports to diverse audiences, including students and industry stakeholders.", width: isMobile ? double.infinity : 300),
+            SkillItem(icon: Icons.school, text: "Mentoring and Lecturing: Mentored junior developers and analysts, and lectured on data science and microbiology, fostering professional and academic growth.", width: isMobile ? double.infinity : 300),
+            SkillItem(icon: Icons.cached, text: "Adaptability: Thrived in fast-paced, dynamic environments, adapting to new technologies and scientific methodologies.", width: isMobile ? double.infinity : 300),
+            SkillItem(icon: Icons.access_time, text: "Time Management: Prioritized tasks and managed deadlines effectively across development, analytics, and laboratory projects.", width: isMobile ? double.infinity : 300),
+            SkillItem(icon: Icons.mediation, text: "Conflict Resolution: Mediated team disputes to ensure cohesive collaboration and maintain project momentum.", width: isMobile ? double.infinity : 300),
+            SkillItem(icon: Icons.gavel, text: "Decision-Making: Made data-driven decisions to optimize outcomes in software development, data analysis, and laboratory operations.", width: isMobile ? double.infinity : 300),
+            SkillItem(icon: Icons.people_alt, text: "Collaboration: Built strong interdisciplinary partnerships with developers, scientists, and business teams to drive project success.", width: isMobile ? double.infinity : 300),
+            SkillItem(icon: Icons.psychology, text: "Emotional Intelligence: Leveraged empathy and interpersonal awareness to build trust and rapport in professional and academic settings.", width: isMobile ? double.infinity : 300),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class SkillItem extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  final double width;
+
+  const SkillItem({super.key, required this.icon, required this.text, required this.width});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+        boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 4, offset: const Offset(0, 2))],
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, size: 16, color: Colors.blue[700]),
+          const SizedBox(width: 8),
+          Expanded(child: Text(text, style: Theme.of(context).textTheme.bodyMedium)),
+        ],
+      ),
+    );
   }
 }
 
@@ -1065,94 +1345,6 @@ class ProfessionalExperienceContent extends StatelessWidget {
           primaryColor: primaryColor,
           secondaryColor: secondaryColor,
         ),
-        ExperienceCard(
-          company: "NNT Strategic Solutions, Pretoria",
-          role: "Software Developer",
-          period: "January 2025 – Present",
-          responsibilities: [
-            _buildResponsibilityItem(FontAwesomeIcons.laptopCode, "Led teams to build AI-powered platforms and mobile apps with Django, Flask, FastAPI, Flutter, and Power BI."),
-            _buildResponsibilityItem(FontAwesomeIcons.palette, "Designed responsive interfaces with HTML5, CSS3, JavaScript, TypeScript, React, Angular, and Vue.js for user engagement."),
-            _buildResponsibilityItem(FontAwesomeIcons.server, "Built scalable and secure Django applications with RESTful APIs, GraphQL, and JWT authentication."),
-            _buildResponsibilityItem(FontAwesomeIcons.code, "Developed custom Django models, views, templates, and forms to meet complex business requirements."),
-            _buildResponsibilityItem(FontAwesomeIcons.database, "Implemented Django ORM for efficient database operations and query optimization."),
-            _buildResponsibilityItem(FontAwesomeIcons.userShield, "Utilized Django's built-in authentication and authorization system for secure user management."),
-            _buildResponsibilityItem(FontAwesomeIcons.box, "Integrated third-party Django packages and libraries (e.g., Django REST framework, Django Channels) to enhance functionality."),
-            _buildResponsibilityItem(FontAwesomeIcons.projectDiagram, "Designed and implemented database schema and migrations using Django's migration framework."),
-            _buildResponsibilityItem(FontAwesomeIcons.plug, "Built and consumed APIs using Django REST framework, ensuring API security and performance."),
-            _buildResponsibilityItem(FontAwesomeIcons.bolt, "Implemented caching mechanisms (e.g., Redis, Memcached) to improve application performance."),
-            _buildResponsibilityItem(FontAwesomeIcons.tasks, "Utilized Celery and RabbitMQ for asynchronous task processing and job queuing."),
-            _buildResponsibilityItem(FontAwesomeIcons.comments, "Implemented real-time functionality using Django Channels and WebSockets."),
-            _buildResponsibilityItem(FontAwesomeIcons.flask, "Developed Flask applications with RESTful APIs, JWT authentication, and database integration (e.g., SQLAlchemy, Flask-SQLAlchemy)."),
-            _buildResponsibilityItem(FontAwesomeIcons.docker, "Built microservices with Flask and containerization using Docker."),
-            _buildResponsibilityItem(FontAwesomeIcons.js, "Implemented frontend functionality using JavaScript, TypeScript, and frameworks like React, Angular, and Vue.js."),
-            _buildResponsibilityItem(FontAwesomeIcons.toolbox, "Utilized JavaScript libraries like jQuery, Lodash, and Moment.js to enhance frontend functionality."),
-            _buildResponsibilityItem(FontAwesomeIcons.mobile, "Implemented responsive design using CSS3, Sass, and Less."),
-            _buildResponsibilityItem(FontAwesomeIcons.vial, "Ensured code quality and best practices through code reviews, testing (unit, integration, and functional tests), and continuous integration."),
-            _buildResponsibilityItem(FontAwesomeIcons.cloud, "Deployed applications on cloud platforms (e.g., AWS, Google Cloud, Azure) and containerization using Docker."),
-            _buildResponsibilityItem(FontAwesomeIcons.cog, "Configured and managed applications using environment variables and configuration files."),
-            _buildResponsibilityItem(FontAwesomeIcons.chartLine, "Implemented monitoring and logging tools (e.g., Prometheus, Grafana, ELK Stack) to track application performance and errors."),
-            _buildResponsibilityItem(FontAwesomeIcons.robot, "Built ML models with scikit-learn, TensorFlow, PyTorch, and AI tools (Lovable AI, Grok) for predictive analytics and NLP."),
-            _buildResponsibilityItem(FontAwesomeIcons.fire, "Integrated Supabase, Firebase, and Power Automate for real-time workflows."),
-            _buildResponsibilityItem(FontAwesomeIcons.handsHelping, "Mentored developers, aligning solutions with business goals via stakeholder collaboration."),
-            _buildResponsibilityItem(FontAwesomeIcons.shieldAlt, "Applied Agile and GDPR/POPIA compliance for secure, innovative solutions."),
-          ],
-          projects: [
-            LinkProject("Performa360 Platform (2024–2025)", ""),
-            LinkProject("Customer Churn Prediction System (2025)", ""),
-            LinkProject("AfroDating Mobile Application (2024–Present)", ""),
-            LinkProject("AI-Powered Web Platform (WebCraft, 2025)", ""),
-            LinkProject("AuPair Connect Platform (2025)", ""),
-            LinkProject("LandLink Platform (2025)", ""),
-            LinkProject("SurroLink Surrogacy Platform (2025)", ""),
-          ],
-          primaryColor: primaryColor,
-          secondaryColor: secondaryColor,
-        ),
-        ExperienceCard(
-          company: "Lucient Engineering & Construction, Witbank",
-          role: "Data Scientist",
-          period: "January 2015 – December 2020",
-          responsibilities: [
-            _buildResponsibilityItem(FontAwesomeIcons.database, "Extracted, cleaned, and consolidated operational data from ERP systems, maintenance logs, SCADA systems, and equipment sensors for dragliners and other mining machinery."),
-            _buildResponsibilityItem(FontAwesomeIcons.brain, "Developed predictive maintenance models using ML and statistical methods to forecast equipment failures and reduce unplanned downtime."),
-            _buildResponsibilityItem(FontAwesomeIcons.chartBar, "Monitored equipment KPIs including utilization, cycle times, and repair turnaround, identifying bottlenecks and operational inefficiencies."),
-            _buildResponsibilityItem(FontAwesomeIcons.tools, "Analyzed historical shutdowns and maintenance schedules to optimize resource allocation and minimize operational downtime."),
-            _buildResponsibilityItem(FontAwesomeIcons.table, "Built dashboards in Power BI and Tableau for real-time monitoring of equipment health, maintenance status, and project progress."),
-            _buildResponsibilityItem(FontAwesomeIcons.wallet, "Evaluated maintenance costs, spare parts usage, and contractor performance to identify opportunities for cost optimization."),
-            _buildResponsibilityItem(FontAwesomeIcons.users, "Collaborated with engineering, maintenance, and project teams to translate data insights into actionable recommendations for operational improvements."),
-            _buildResponsibilityItem(FontAwesomeIcons.shieldAlt, "Monitored safety and compliance metrics, supporting risk mitigation and ensuring adherence to regulatory standards."),
-            _buildResponsibilityItem(FontAwesomeIcons.search, "Performed exploratory data analysis (EDA) on sensor and operational data to identify trends, anomalies, and potential equipment issues."),
-            _buildResponsibilityItem(FontAwesomeIcons.chalkboardTeacher, "Presented analytical findings to stakeholders through reports, dashboards, and data-driven storytelling to support decision-making."),
-            _buildResponsibilityItem(FontAwesomeIcons.rocket, "Stayed current with industry trends, advanced analytics, and emerging AI/ML technologies to enhance mining operations and predictive capabilities."),
-          ],
-          primaryColor: primaryColor,
-          secondaryColor: secondaryColor,
-        ),
-        ExperienceCard(
-          company: "Dairiboard Limited, Harare, Zimbabwe",
-          role: "Senior Microbiologist / Laboratory Analyst",
-          period: "January 2005 – December 2014",
-          responsibilities: [
-            _buildResponsibilityItem(FontAwesomeIcons.vial, "Conducted lab tests on inbound, inline, and outbound dairy product samples, ensuring ISO-compliant safety and quality."),
-            _buildResponsibilityItem(FontAwesomeIcons.chartLine, "Analyzed SAP QM (LIMS) data for crucial product safety and quality insights, identifying trends and areas for improvement."),
-            _buildResponsibilityItem(FontAwesomeIcons.fileAlt, "Presented monthly stakeholder reports on production and quality metrics, highlighting key findings and recommendations."),
-            _buildResponsibilityItem(FontAwesomeIcons.clipboardList, "Developed and updated ISO-aligned SOPs and experimental methodologies for laboratory analysis of dairy products."),
-            _buildResponsibilityItem(FontAwesomeIcons.userTie, "Supervised and managed junior staff, conducting KPI reviews, mentoring, and ensuring adherence to laboratory protocols."),
-            _buildResponsibilityItem(FontAwesomeIcons.search, "Extracted, collated, validated, and analyzed production data for quality control, identifying opportunities for process improvement."),
-            _buildResponsibilityItem(FontAwesomeIcons.clipboardCheck, "Participated in internal food safety and quality audits, ensuring compliance with regulatory requirements and company standards."),
-            _buildResponsibilityItem(FontAwesomeIcons.award, "Ensured data met stringent quality control standards, flagging any issues and implementing corrective actions."),
-            _buildResponsibilityItem(FontAwesomeIcons.handsHelping, "Collaborated with production, supply chain, and regulatory affairs teams to align laboratory tests and data initiatives with organizational goals."),
-            _buildResponsibilityItem(FontAwesomeIcons.microscope, "Conducted microbiological testing and analysis of dairy products, including pathogen detection and enumeration."),
-            _buildResponsibilityItem(FontAwesomeIcons.flask, "Performed biochemical testing and analysis of dairy products, including compositional analysis and quality control."),
-            _buildResponsibilityItem(FontAwesomeIcons.lightbulb, "Developed and implemented new laboratory methods and techniques to improve testing efficiency and accuracy."),
-            _buildResponsibilityItem(FontAwesomeIcons.tools, "Maintained laboratory equipment and ensured calibration and validation of instruments."),
-            _buildResponsibilityItem(FontAwesomeIcons.checkDouble, "Participated in method validation and verification studies to ensure accuracy and precision of laboratory results."),
-            _buildResponsibilityItem(FontAwesomeIcons.userShield, "Collaborated with quality assurance team to develop and implement quality control measures and ensure compliance with regulatory requirements."),
-            _buildResponsibilityItem(FontAwesomeIcons.chartBar, "Designed and developed interactive Power BI dashboards to visualize laboratory results, enabling real-time monitoring of dairy product safety and quality trends."),
-          ],
-          primaryColor: primaryColor,
-          secondaryColor: secondaryColor,
-        ),
       ],
     );
   }
@@ -1168,6 +1360,70 @@ class ProfessionalExperienceContent extends StatelessWidget {
           Expanded(child: Text(text, style: const TextStyle(fontSize: 14, height: 1.4))),
         ],
       ),
+    );
+  }
+}
+
+class ExperienceCard extends StatelessWidget {
+  final String company;
+  final String role;
+  final String period;
+  final List<Widget> responsibilities;
+  final List<LinkProject>? projects;
+  final Color primaryColor;
+  final Color secondaryColor;
+
+  const ExperienceCard({super.key, required this.company, required this.role, required this.period, required this.responsibilities, this.projects, required this.primaryColor, required this.secondaryColor});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(company, style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold, color: primaryColor)),
+            const SizedBox(height: 4),
+            Text("$role • $period", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey[700])),
+            const SizedBox(height: 12),
+            Text("Responsibilities:", style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 6),
+            ...responsibilities,
+            if (projects != null && projects!.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              Text("Key Projects:", style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 6),
+              BulletList(projects!.map((p) => "${p.name}: ${p.url}").toList(), primaryColor: primaryColor),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class BulletList extends StatelessWidget {
+  final List<String> items;
+  final Color primaryColor;
+
+  const BulletList(this.items, {super.key, required this.primaryColor});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: items.map((item) => Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(Icons.circle, size: 8, color: primaryColor),
+            const SizedBox(width: 8),
+            Expanded(child: Text(item, style: Theme.of(context).textTheme.bodyMedium)),
+          ],
+        ),
+      )).toList(),
     );
   }
 }
@@ -1246,48 +1502,9 @@ class CertificationsContent extends StatelessWidget {
           launchURL: launchURL,
           verification: "https://coursera.org/verify/specialization/GUSLY3ETUER4",
         ),
-        const SizedBox(height: 20),
-        CertificationTile(
-          title: "Python 3 Programming Specialization",
-          issuer: "University of Michigan, Coursera",
-          period: "2021 – 2022",
-          courses: [
-            CourseItem("🔤 Python Basics", "https://coursera.org/verify/8236JMR5K4RW"),
-            CourseItem("📥 Data Collection and Processing with Python", "https://coursera.org/verify/UH9C2YE7XGFQ"),
-            CourseItem("📚 Python Functions, Files, and Dictionaries", "https://coursera.org/verify/F6N75RWRYVWM"),
-            CourseItem("🏛️ Python Classes and Inheritance", "https://coursera.org/verify/YAQ2Z8TYH44Y"),
-            CourseItem("🖼️ Python Project: Software Engineering and Image Manipulation", "https://coursera.org/verify/XC9QU5PUYSSF"),
-          ],
-          primaryColor: primaryColor,
-          launchURL: launchURL,
-          verification: "https://www.coursera.org/account/accomplishments/specialization/certificate/EA8H8GA6YGXQ",
-        ),
-        const SizedBox(height: 20),
-        CertificationTile(
-          title: "Data Science Fundamentals with Python and SQL",
-          issuer: "IBM, Coursera",
-          period: "2021 – 2022",
-          courses: [
-            CourseItem("🛠️ Tools for Data Science", "https://coursera.org/verify/3HN9VHTL9NAV"),
-            CourseItem("🐍 Python for Data Science, AI & Development", "https://coursera.org/verify/LXAXG7URCGJJ"),
-            CourseItem("💻 Python Project for Data Science", "https://coursera.org/verify/LWRHHEGETXSL"),
-            CourseItem("📊 Statistics for Data Science with Python", "https://coursera.org/verify/W3A8849BKRNE"),
-            CourseItem("🗄️ Databases and SQL for Data Science with Python", "https://coursera.org/verify/7PRS4MJPPBZK"),
-          ],
-          primaryColor: primaryColor,
-          launchURL: launchURL,
-          verification: "https://coursera.org/verify/specialization/GUSLY3ETUER4",
-        ),
       ],
     );
   }
-}
-
-class CourseItem {
-  final String title;
-  final String? verificationUrl;
-
-  const CourseItem(this.title, this.verificationUrl);
 }
 
 class CertificationTile extends StatelessWidget {
@@ -1416,42 +1633,78 @@ class AccomplishmentsContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AccomplishmentList([
-      "Developed and implemented a machine learning solution for a client in the freight and rail sector, optimizing a R2.4B inventory by reallocating underutilized materials to high-consumption areas. Integrated with SAP forecasting tables to predict future usage, helping avoid approximately R500 million in procurement costs.",
-      "Uncovered anomalies in Carlton Centre lease data, generating insights that led to significant cost savings through divestment from a loss-making asset.",
-      "Contributed to KwaZulu-Natal Floods Task Team, shaping National Disaster Response Strategy.",
-      "Developed 50+ Power BI dashboards for auditing, supply chain, and KPI tracking.",
-      "Supported implementation of ISO 22000 and ISO 9001 standards in dairy processing, ensuring food safety and quality compliance.",
-      "Contributed to laboratory accreditation efforts under ISO/IEC 17025 and ISO 14001, strengthening credibility and sustainability initiatives.",
-      "Developed predictive maintenance models for dragliners and mining equipment, reducing unplanned downtime and improving overall equipment efficiency.",
-      "Built Power BI dashboards and operational reports integrating ERP, SCADA, and sensor data, enabling the engineering team to optimize shutdown schedules, resource allocation, and maintenance planning.",
+      AccomplishmentItem(
+        icon: FontAwesomeIcons.chartLine,
+        text: "Developed and implemented a machine learning solution for a client in the freight and rail sector, optimizing a R2.4B inventory by reallocating underutilized materials to high-consumption areas. Integrated with SAP forecasting tables to predict future usage, helping avoid approximately R500 million in procurement costs.",
+      ),
+      AccomplishmentItem(
+        icon: FontAwesomeIcons.searchDollar,
+        text: "Uncovered anomalies in Carlton Centre lease data, generating insights that led to significant cost savings through divestment from a loss-making asset.",
+      ),
+      AccomplishmentItem(
+        icon: FontAwesomeIcons.handsHelping,
+        text: "Contributed to KwaZulu-Natal Floods Task Team, shaping National Disaster Response Strategy.",
+      ),
+      AccomplishmentItem(
+        icon: FontAwesomeIcons.chartBar,
+        text: "Developed 50+ Power BI dashboards for auditing, supply chain, and KPI tracking.",
+      ),
+      AccomplishmentItem(
+        icon: FontAwesomeIcons.award,
+        text: "Supported implementation of ISO 22000 and ISO 9001 standards in dairy processing, ensuring food safety and quality compliance.",
+      ),
+      AccomplishmentItem(
+        icon: FontAwesomeIcons.graduationCap,
+        text: "Contributed to laboratory accreditation efforts under ISO/IEC 17025 and ISO 14001, strengthening credibility and sustainability initiatives.",
+      ),
+      AccomplishmentItem(
+        icon: FontAwesomeIcons.tools,
+        text: "Developed predictive maintenance models for dragliners and mining equipment, reducing unplanned downtime and improving overall equipment efficiency.",
+      ),
+      AccomplishmentItem(
+        icon: FontAwesomeIcons.database,
+        text: "Built Power BI dashboards and operational reports integrating ERP, SCADA, and sensor data, enabling the engineering team to optimize shutdown schedules, resource allocation, and maintenance planning.",
+      ),
     ], primaryColor: primaryColor);
   }
 }
 
-class ReferenceTile extends StatelessWidget {
-  final String name;
-  final String company;
-  final String position;
-  final String contact;
+class AccomplishmentList extends StatelessWidget {
+  final List<AccomplishmentItem> items;
   final Color primaryColor;
 
-  const ReferenceTile({super.key, required this.name, required this.company, required this.position, required this.contact, required this.primaryColor});
+  const AccomplishmentList(this.items, {super.key, required this.primaryColor});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
-        contentPadding: const EdgeInsets.all(16),
-        leading: Icon(Icons.person, color: primaryColor),
-        title: Text(name, style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold)),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(company, style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontStyle: FontStyle.italic)),
-            Text(position, style: Theme.of(context).textTheme.bodyMedium),
-            Text(contact, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey[600])),
-          ],
-        ),
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
+        boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 6, offset: const Offset(0, 3))],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: items.map((item) => Padding(
+          padding: const EdgeInsets.only(bottom: 16.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: primaryColor.withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(item.icon, size: 20, color: primaryColor),
+              ),
+              const SizedBox(width: 12),
+              Expanded(child: Text(item.text, style: Theme.of(context).textTheme.bodyMedium)),
+            ],
+          ),
+        )).toList(),
       ),
     );
   }
@@ -1493,6 +1746,35 @@ class ReferencesContent extends StatelessWidget {
   }
 }
 
+class ReferenceTile extends StatelessWidget {
+  final String name;
+  final String company;
+  final String position;
+  final String contact;
+  final Color primaryColor;
+
+  const ReferenceTile({super.key, required this.name, required this.company, required this.position, required this.contact, required this.primaryColor});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: ListTile(
+        contentPadding: const EdgeInsets.all(16),
+        leading: Icon(Icons.person, color: primaryColor),
+        title: Text(name, style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold)),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(company, style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontStyle: FontStyle.italic)),
+            Text(position, style: Theme.of(context).textTheme.bodyMedium),
+            Text(contact, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey[600])),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class ProjectsContent extends StatelessWidget {
   final Function(Project) onProjectTap;
   final Color primaryColor;
@@ -1529,197 +1811,6 @@ class ProjectsContent extends StatelessWidget {
     );
   }
 }
-
-class FullCVContent extends StatelessWidget {
-  final Future<void> Function(String) launchURL;
-  final Color primaryColor;
-  final Color secondaryColor;
-
-  const FullCVContent({super.key, required this.launchURL, required this.primaryColor, required this.secondaryColor});
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SectionHeader(icon: Icons.person, title: "Professional Summary", primaryColor: primaryColor, secondaryColor: secondaryColor, child: Container(padding: const EdgeInsets.all(16), child: ProfessionalSummaryContent(primaryColor: primaryColor))),
-          SectionHeader(icon: Icons.build, title: "Technical Skills", primaryColor: primaryColor, secondaryColor: secondaryColor, child: Container(padding: const EdgeInsets.all(16), child: TechnicalSkillsContent(primaryColor: primaryColor, secondaryColor: secondaryColor))),
-          SectionHeader(icon: Icons.people, title: "Soft, Leadership, and Interpersonal Skills", primaryColor: primaryColor, secondaryColor: secondaryColor, child: Container(padding: const EdgeInsets.all(16), child: SoftSkillsContent(primaryColor: primaryColor))),
-          SectionHeader(icon: Icons.work, title: "Professional Experience", primaryColor: primaryColor, secondaryColor: secondaryColor, child: Container(padding: const EdgeInsets.all(16), child: ProfessionalExperienceContent(primaryColor: primaryColor, secondaryColor: secondaryColor))),
-          SectionHeader(icon: Icons.school, title: "Education", primaryColor: primaryColor, secondaryColor: secondaryColor, child: Container(padding: const EdgeInsets.all(16), child: EducationContent(primaryColor: primaryColor))),
-          SectionHeader(icon: Icons.card_membership, title: "Certifications", primaryColor: primaryColor, secondaryColor: secondaryColor, child: Container(padding: const EdgeInsets.all(16), child: CertificationsContent(primaryColor: primaryColor, launchURL: launchURL))),
-          SectionHeader(icon: Icons.emoji_events, title: "Accomplishments", primaryColor: primaryColor, secondaryColor: secondaryColor, child: Container(padding: const EdgeInsets.all(16), child: AccomplishmentsContent(primaryColor: primaryColor))),
-          SectionHeader(icon: Icons.people_outline, title: "References", primaryColor: primaryColor, secondaryColor: secondaryColor, child: Container(padding: const EdgeInsets.all(16), child: ReferencesContent(primaryColor: primaryColor))),
-        ],
-      ),
-    );
-  }
-}
-
-class Project {
-  final String title;
-  final String description;
-  final String role;
-  final List<String> contributions;
-  final List<String> outcomes;
-  final String imagePath;
-
-  const Project({required this.title, required this.description, required this.role, required this.contributions, required this.outcomes, required this.imagePath});
-}
-
-const List<Project> projects = [
-  Project(
-    title: "Transnet Engineering Inventory Optimisation",
-    description: "Led the development of a data-driven inventory optimization solution for Transnet, managing a R2.4B inventory to enhance supply chain efficiency and reduce costs.",
-    role: "Data Scientist & Python Developer",
-    contributions: [
-      "Led vibrant Data Analytics team to deliver inventory optimization reports using Python, SQL, and Power BI.",
-      "Built predictive models with scikit-learn and TensorFlow for inventory demand forecasting.",
-      "Integrated SAP data with Python (Pandas, NumPy) and Power Automate for real-time analytics.",
-      "Collaborated with stakeholders to align solutions with supply chain objectives."
-    ],
-    outcomes: [
-      "Optimized R2.4B inventory, setting a national standard for efficiency.",
-      "Reduced inventory costs by 15% through predictive analytics.",
-      "Improved supply chain decision-making with actionable Power BI dashboards."
-    ],
-    imagePath: "assets/TE.jpeg",
-  ),
-  Project(
-    title: "Transnet Properties Integrated Leases Review",
-    description: "The TP Integrated Leases Review system was developed to analyze, visualize, and optimize property occupancy statistics across multiple facilities and reporting periods. The platform consolidates lease data, occupancy rates, and tenant metrics into interactive dashboards that empower real estate teams to make informed, data-driven decisions.",
-    role: "Power BI Developer & Data Analyst",
-    contributions: [
-      "Developed automated ETL scripts using Python and PostgreSQL to collect, clean, and consolidate leasing and occupancy data from multiple branches and property management systems.",
-      "Built dynamic dashboards for occupancy tracking, lease renewal forecasting, and period-over-period comparisons, improving decision-making for property managers and finance teams.",
-      "Integrated visualization layers using Plotly and Power BI for interactive insights into occupancy rates, vacant spaces, and utilization efficiency across portfolio segments.",
-      "Implemented data validation pipelines to ensure accuracy of tenant records, lease terms, and occupancy calculations before generating analytics summaries.",
-      "Created APIs and background jobs to sync lease records with accounting and facility management systems for end-to-end operational transparency.",
-      "Collaborated with business stakeholders to define KPIs such as occupancy percentage, average lease duration, renewal rates, and revenue per square meter.",
-      "Designed an intuitive filtering system that allows users to view occupancy statistics by branch, region, lease type, or specific reporting period.",
-      "Enhanced performance through database indexing and optimized query aggregation, enabling faster report generation for high-volume datasets.",
-      "Provided training materials and support for operational teams to interpret dashboard insights and leverage data for strategic space optimization."
-    ],
-    outcomes: [
-      "Increased operational visibility by 45% through centralized reporting of occupancy and leasing metrics across all sites.",
-      "Reduced manual report preparation time by 60% with automated data consolidation and visualization pipelines.",
-      "Improved lease renewal forecasting accuracy by 30% through data-driven trend analysis and historical occupancy patterns.",
-      "Enabled proactive management of underutilized properties, reducing vacancy duration and improving asset utilization.",
-      "Supported data-driven executive decisions with real-time insights accessible across finance, operations, and property divisions."
-    ],
-    imagePath: "assets/lease_agreement.jpeg",
-  ),
-  Project(
-    title: "Performa360 Platform",
-    description: "As a key contributor, I helped develop Performa360, a comprehensive performance management ecosystem that transforms strategic planning into executable results. The platform integrates goal cascading, performance evaluations, and talent development through intuitive applications, AI-powered chat support, and interactive visualization tools.",
-    role: "Python Developer & Data Analyst",
-    contributions: [
-      "Collaborated with HR teams and executives to design user-friendly interfaces for strategic goal cascading, performance tracking, and training progress alignment.",
-      "Developed an interactive Strategic Goal Metrics Map with hierarchical visualization, enabling organizations to transform strategic objectives into measurable KPIs, deliverables, and evidence-based outcomes.",
-      "Implemented dynamic node-based architecture for visual goal mapping, allowing drag-and-drop creation of strategic goals with weighted importance, due dates, and team assignments.",
-      "Partnered with cross-functional teams to integrate Power BI dashboards and real-time performance analytics, visualizing strategic alignment and execution progress.",
-      "Engineered smart due date management systems with bulk scheduling capabilities and automated deadline tracking across multiple goal hierarchies.",
-      "Designed team collaboration features including multi-employee assignment, goal inheritance, and role-based access controls for strategic planning vs. execution.",
-      "Built API-driven data integration for automatic population of strategic goals, KPIs, and deliverables from existing enterprise systems.",
-      "Engaged stakeholders to implement AI-driven chat features and personalized recommendations, providing real-time strategic guidance and support.",
-      "Worked with IT teams to develop secure authentication systems and visual workflow management tools, ensuring safe access while maintaining intuitive user experiences."
-    ],
-    outcomes: [
-      "Reduced performance review time by 30% through automated goal cascading and streamlined evaluation processes co-designed with stakeholders.",
-      "Improved strategic alignment visibility by 40% with interactive goal mapping that shows how individual contributions support organizational objectives.",
-      "Enhanced user engagement by 25% through intuitive visual interfaces and real-time progress tracking, informed by continuous user feedback.",
-      "Accelerated strategic planning cycles by 35% through bulk operations, template reuse, and transversal/departmental goal synchronization.",
-      "Empowered organizations with advanced analytics and Power BI integration, driving data-driven decision making through collaborative insights.",
-      "Increased goal completion rates by 28% through clear accountability mapping and visual progress indicators across the 4-stage cascading framework."
-    ],
-    imagePath: "assets/performa360.jpeg",
-  ),
-  Project(
-    title: "AfroDating Mobile Application",
-    description: "I contributed to AfroDating, a mobile app connecting people of African descent worldwide through location-based matching. By engaging with users and marketing teams, I ensured a culturally sensitive platform that enhances user connectivity and engagement.",
-    role: "Mobile Developer & Data Analyst",
-    contributions: [
-      "Collaborated with user focus groups to develop responsive iOS and Android interfaces, ensuring seamless experiences.",
-      "Worked with analytics teams to build Power BI dashboards, tracking engagement and performance metrics.",
-      "Partnered with developers to integrate real-time chat and notification features, enhancing user connectivity."
-    ],
-    outcomes: [
-      "Successfully launched on App Store and Google Play, achieving strong adoption through stakeholder-driven design.",
-      "Increased user retention by 15% with culturally tailored features, informed by user feedback.",
-      "Delivered actionable insights via Advanced Analytics, supporting platform growth through team collaboration."
-    ],
-    imagePath: "assets/afrodating.jpeg",
-  ),
-  Project(
-    title: "AI-Powered Web Platform (WebCraft)",
-    description: "Developed a comprehensive web platform using AI technologies to streamline business processes and enhance user experiences.",
-    role: "Full Stack Developer & Data Scientist",
-    contributions: [
-      "Designed and implemented responsive front-end interfaces using Flutter and React",
-      "Developed RESTful APIs and backend services using Django and FastAPI",
-      "Integrated AI capabilities for content generation and user recommendations",
-      "Implemented real-time data processing and analytics features"
-    ],
-    outcomes: [
-      "Reduced development time by 40% through reusable component architecture",
-      "Improved user engagement by 35% with personalized content recommendations",
-      "Achieved 99.9% uptime through robust cloud infrastructure and monitoring"
-    ],
-    imagePath: "assets/webcraft.jpeg",
-  ),
-  Project(
-    title: "AuPair Connect Platform",
-    description: "Built a platform connecting families with qualified au pairs, featuring advanced matching algorithms and secure communication tools.",
-    role: "Mobile & Web Developer",
-    contributions: [
-      "Developed cross-platform mobile applications using Flutter",
-      "Implemented secure messaging and video call features",
-      "Created matching algorithm based on family needs and au pair qualifications",
-      "Integrated payment processing and background check services"
-    ],
-    outcomes: [
-      "Successfully matched over 500 families with qualified au pairs",
-      "Achieved 4.8/5 user satisfaction rating",
-      "Reduced matching time from weeks to days through algorithmic optimization"
-    ],
-    imagePath: "assets/aupair_connect.jpeg",
-  ),
-  Project(
-    title: "LandLink Platform",
-    description: "Developed a real estate platform connecting landowners with potential developers and investors, featuring advanced property search and analytics.",
-    role: "Full Stack Developer & Data Analyst",
-    contributions: [
-      "Created property search with advanced filters and map integration",
-      "Developed analytics dashboard for property valuation and market trends",
-      "Implemented secure document sharing and electronic signature capabilities",
-      "Built recommendation engine for matching properties with investor preferences"
-    ],
-    outcomes: [
-      "Facilitated over R50M in property transactions",
-      "Reduced property search time by 70% through intelligent filtering",
-      "Provided data-driven insights for investment decisions"
-    ],
-    imagePath: "assets/landlink.jpeg",
-  ),
-  Project(
-    title: "SurroLink Surrogacy Platform",
-    description: "Created a sensitive and secure platform connecting intended parents with surrogate mothers, providing support throughout the surrogacy journey.",
-    role: "Full Stack Developer",
-    contributions: [
-      "Developed secure messaging and medical record sharing system",
-      "Created matching algorithm based on medical compatibility and preferences",
-      "Implemented calendar and scheduling system for medical appointments",
-      "Built support community features with moderated forums"
-    ],
-    outcomes: [
-      "Successfully facilitated over 100 surrogacy matches",
-      "Maintained 100% data security and HIPAA compliance",
-      "Received recognition from fertility clinics for improving the matching process"
-    ],
-    imagePath: "assets/surrolink.jpeg",
-  ),
-];
 
 class ProjectGrid extends StatelessWidget {
   final Function(Project) onProjectTap;
@@ -1886,6 +1977,33 @@ class ProjectDetailsModal extends StatelessWidget {
   }
 }
 
+class FullCVContent extends StatelessWidget {
+  final Future<void> Function(String) launchURL;
+  final Color primaryColor;
+  final Color secondaryColor;
+
+  const FullCVContent({super.key, required this.launchURL, required this.primaryColor, required this.secondaryColor});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SectionHeader(icon: Icons.person, title: "Professional Summary", primaryColor: primaryColor, secondaryColor: secondaryColor, child: Container(padding: const EdgeInsets.all(16), child: ProfessionalSummaryContent(primaryColor: primaryColor))),
+          SectionHeader(icon: Icons.build, title: "Technical Skills", primaryColor: primaryColor, secondaryColor: secondaryColor, child: Container(padding: const EdgeInsets.all(16), child: TechnicalSkillsContent(primaryColor: primaryColor, secondaryColor: secondaryColor))),
+          SectionHeader(icon: Icons.people, title: "Soft, Leadership, and Interpersonal Skills", primaryColor: primaryColor, secondaryColor: secondaryColor, child: Container(padding: const EdgeInsets.all(16), child: SoftSkillsContent(primaryColor: primaryColor))),
+          SectionHeader(icon: Icons.work, title: "Professional Experience", primaryColor: primaryColor, secondaryColor: secondaryColor, child: Container(padding: const EdgeInsets.all(16), child: ProfessionalExperienceContent(primaryColor: primaryColor, secondaryColor: secondaryColor))),
+          SectionHeader(icon: Icons.school, title: "Education", primaryColor: primaryColor, secondaryColor: secondaryColor, child: Container(padding: const EdgeInsets.all(16), child: EducationContent(primaryColor: primaryColor))),
+          SectionHeader(icon: Icons.card_membership, title: "Certifications", primaryColor: primaryColor, secondaryColor: secondaryColor, child: Container(padding: const EdgeInsets.all(16), child: CertificationsContent(primaryColor: primaryColor, launchURL: launchURL))),
+          SectionHeader(icon: Icons.emoji_events, title: "Accomplishments", primaryColor: primaryColor, secondaryColor: secondaryColor, child: Container(padding: const EdgeInsets.all(16), child: AccomplishmentsContent(primaryColor: primaryColor))),
+          SectionHeader(icon: Icons.people_outline, title: "References", primaryColor: primaryColor, secondaryColor: secondaryColor, child: Container(padding: const EdgeInsets.all(16), child: ReferencesContent(primaryColor: primaryColor))),
+        ],
+      ),
+    );
+  }
+}
+
 class SectionHeader extends StatelessWidget {
   final IconData icon;
   final String title;
@@ -1919,168 +2037,130 @@ class SectionHeader extends StatelessWidget {
   }
 }
 
-class SkillGrid extends StatelessWidget {
-  const SkillGrid({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ResponsiveBuilder(
-      builder: (context, sizingInformation) {
-        final isMobile = sizingInformation.isMobile;
-
-        return Wrap(
-          spacing: 16,
-          runSpacing: 16,
-          children: [
-            SkillItem(icon: Icons.group, text: "Team Leadership: Guided cross-functional teams of developers, analysts, and scientists to achieve project goals, fostering collaboration and innovation.", width: isMobile ? double.infinity : 300),
-            SkillItem(icon: Icons.assignment, text: "Project Management: Oversaw end-to-end delivery of complex technical projects, ensuring timely completion within budget and scope.", width: isMobile ? double.infinity : 300),
-            SkillItem(icon: Icons.timeline, text: "Strategic Planning: Aligned technical solutions with business objectives, driving organizational success in data-driven initiatives.", width: isMobile ? double.infinity : 300),
-            SkillItem(icon: Icons.handshake, text: "Stakeholder Engagement: Communicated effectively with clients, executives, and cross-industry partners to align on project goals and deliverables.", width: isMobile ? double.infinity : 300),
-            SkillItem(icon: Icons.lightbulb, text: "Problem-Solving: Developed innovative solutions to complex technical and analytical challenges in development and scientific contexts.", width: isMobile ? double.infinity : 300),
-            SkillItem(icon: Icons.comment, text: "Communication: Delivered clear, concise presentations and technical reports to diverse audiences, including students and industry stakeholders.", width: isMobile ? double.infinity : 300),
-            SkillItem(icon: Icons.school, text: "Mentoring and Lecturing: Mentored junior developers and analysts, and lectured on data science and microbiology, fostering professional and academic growth.", width: isMobile ? double.infinity : 300),
-            SkillItem(icon: Icons.cached, text: "Adaptability: Thrived in fast-paced, dynamic environments, adapting to new technologies and scientific methodologies.", width: isMobile ? double.infinity : 300),
-            SkillItem(icon: Icons.access_time, text: "Time Management: Prioritized tasks and managed deadlines effectively across development, analytics, and laboratory projects.", width: isMobile ? double.infinity : 300),
-            SkillItem(icon: Icons.mediation, text: "Conflict Resolution: Mediated team disputes to ensure cohesive collaboration and maintain project momentum.", width: isMobile ? double.infinity : 300),
-            SkillItem(icon: Icons.gavel, text: "Decision-Making: Made data-driven decisions to optimize outcomes in software development, data analysis, and laboratory operations.", width: isMobile ? double.infinity : 300),
-            SkillItem(icon: Icons.people_alt, text: "Collaboration: Built strong interdisciplinary partnerships with developers, scientists, and business teams to drive project success.", width: isMobile ? double.infinity : 300),
-            SkillItem(icon: Icons.psychology, text: "Emotional Intelligence: Leveraged empathy and interpersonal awareness to build trust and rapport in professional and academic settings.", width: isMobile ? double.infinity : 300),
-          ],
-        );
-      },
-    );
-  }
-}
-
-class SkillItem extends StatelessWidget {
-  final IconData icon;
-  final String text;
-  final double width;
-
-  const SkillItem({super.key, required this.icon, required this.text, required this.width});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: const BorderRadius.all(Radius.circular(8)),
-        boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 4, offset: const Offset(0, 2))],
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, size: 16, color: Colors.blue[700]),
-          const SizedBox(width: 8),
-          Expanded(child: Text(text, style: Theme.of(context).textTheme.bodyMedium)),
-        ],
-      ),
-    );
-  }
-}
-
-class ExperienceCard extends StatelessWidget {
-  final String company;
-  final String role;
-  final String period;
-  final List<Widget> responsibilities;
-  final List<LinkProject>? projects;
-  final Color primaryColor;
-  final Color secondaryColor;
-
-  const ExperienceCard({super.key, required this.company, required this.role, required this.period, required this.responsibilities, this.projects, required this.primaryColor, required this.secondaryColor});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(company, style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold, color: primaryColor)),
-            const SizedBox(height: 4),
-            Text("$role • $period", style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey[700])),
-            const SizedBox(height: 12),
-            Text("Responsibilities:", style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 6),
-            ...responsibilities,
-            if (projects != null && projects!.isNotEmpty) ...[
-              const SizedBox(height: 12),
-              Text("Key Projects:", style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 6),
-              BulletList(projects!.map((p) => "${p.name}: ${p.url}").toList(), primaryColor: primaryColor),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class AccomplishmentList extends StatelessWidget {
-  final List<String> items;
-  final Color primaryColor;
-
-  const AccomplishmentList(this.items, {super.key, required this.primaryColor});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
-        boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 6, offset: const Offset(0, 3))],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: items.map((e) => Padding(
-          padding: const EdgeInsets.only(bottom: 12.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(Icons.check_circle, size: 16, color: primaryColor),
-              const SizedBox(width: 8),
-              Expanded(child: Text(e, style: Theme.of(context).textTheme.bodyMedium)),
-            ],
-          ),
-        )).toList(),
-      ),
-    );
-  }
-}
-
-class LinkProject {
-  final String name;
-  final String url;
-
-  const LinkProject(this.name, this.url);
-}
-
-class BulletList extends StatelessWidget {
-  final List<String> items;
-  final Color primaryColor;
-
-  const BulletList(this.items, {super.key, required this.primaryColor});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: items.map((item) => Padding(
-        padding: const EdgeInsets.only(bottom: 8.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(Icons.circle, size: 8, color: primaryColor),
-            const SizedBox(width: 8),
-            Expanded(child: Text(item, style: Theme.of(context).textTheme.bodyMedium)),
-          ],
-        ),
-      )).toList(),
-    );
-  }
-}
+const List<Project> projects = [
+  Project(
+    title: "Transnet Engineering Inventory Optimization",
+    description: "Led the development of a data-driven inventory optimization solution for Transnet, managing a R2.4B inventory to enhance supply chain efficiency and reduce costs.",
+    role: "Data Scientist & Python Developer",
+    contributions: [
+      "Led vibrant Data Analytics team to deliver inventory optimization reports using Python, SQL, and Power BI.",
+      "Built predictive models with scikit-learn and TensorFlow for inventory demand forecasting.",
+      "Integrated SAP data with Python (Pandas, NumPy) and Power Automate for real-time analytics.",
+      "Collaborated with stakeholders to align solutions with supply chain objectives."
+    ],
+    outcomes: [
+      "Optimized R2.4B inventory, setting a national standard for efficiency.",
+      "Reduced inventory costs by 15% through predictive analytics.",
+      "Improved supply chain decision-making with actionable Power BI dashboards."
+    ],
+    imagePath: "assets/TE.jpeg",
+  ),
+  Project(
+    title: "Performa360 Platform",
+    description: "A comprehensive performance management ecosystem that transforms strategic planning into executable results through goal cascading, performance evaluations, and talent development.",
+    role: "Python Developer & Data Analyst",
+    contributions: [
+      "Collaborated with HR teams and executives to design user-friendly interfaces for strategic goal cascading and performance tracking.",
+      "Developed interactive Strategic Goal Metrics Map with hierarchical visualization for transforming objectives into measurable KPIs.",
+      "Implemented dynamic node-based architecture for visual goal mapping with drag-and-drop functionality.",
+      "Integrated Power BI dashboards and real-time performance analytics for strategic alignment visualization."
+    ],
+    outcomes: [
+      "Streamlines performance review processes through automated goal cascading and evaluation workflows.",
+      "Enhances strategic alignment visibility with interactive goal mapping showing individual contributions to organizational objectives.",
+      "Provides real-time progress tracking and accountability mapping across organizational hierarchy.",
+      "Supports data-driven decision making through comprehensive analytics and reporting capabilities."
+    ],
+    imagePath: "assets/performa360.jpeg",
+  ),
+  Project(
+    title: "AfroDating Mobile Application",
+    description: "A mobile application connecting people of African descent worldwide through location-based matching and culturally sensitive features.",
+    role: "Mobile Developer & Data Analyst",
+    contributions: [
+      "Collaborated with user focus groups to develop responsive iOS and Android interfaces.",
+      "Worked with analytics teams to build engagement and performance tracking dashboards.",
+      "Partnered with developers to integrate real-time chat and notification features.",
+      "Implemented culturally tailored features based on user feedback and market research."
+    ],
+    outcomes: [
+      "Connects people of African heritage through culturally relevant matching algorithms.",
+      "Provides location-based matching and real-time communication features.",
+      "Offers culturally sensitive user experience designed for the African diaspora community.",
+      "Supports cross-platform functionality on both iOS and Android devices."
+    ],
+    imagePath: "assets/afro.jpeg",
+  ),
+  Project(
+    title: "AI-Powered Web Platform (WebCraft)",
+    description: "A comprehensive web platform using AI technologies to streamline business processes and enhance user experiences through intelligent automation.",
+    role: "Full Stack Developer & Data Scientist",
+    contributions: [
+      "Designed and implemented responsive front-end interfaces using Flutter and React.",
+      "Developed RESTful APIs and backend services using Django and FastAPI.",
+      "Integrated AI capabilities for content generation and user recommendations.",
+      "Implemented real-time data processing and analytics features."
+    ],
+    outcomes: [
+      "Provides AI-driven content generation and personalized user recommendations.",
+      "Offers responsive web interfaces with cross-platform compatibility.",
+      "Streamlines business processes through intelligent automation features.",
+      "Supports real-time data processing and comprehensive analytics capabilities."
+    ],
+    imagePath: "assets/webcraft.jpeg",
+  ),
+  Project(
+    title: "AuPair Connect Platform",
+    description: "A platform connecting families with qualified au pairs through advanced matching algorithms and secure communication tools.",
+    role: "Mobile & Web Developer",
+    contributions: [
+      "Developed cross-platform mobile applications using Flutter.",
+      "Implemented secure messaging and video call features.",
+      "Created matching algorithm based on family needs and au pair qualifications.",
+      "Integrated payment processing and background check services."
+    ],
+    outcomes: [
+      "Connects families with qualified au pairs through intelligent matching algorithms.",
+      "Provides secure communication channels including messaging and video calls.",
+      "Offers comprehensive profile management and verification services.",
+      "Supports seamless payment processing and scheduling functionality."
+    ],
+    imagePath: "assets/aupair_connect.jpeg",
+  ),
+  Project(
+    title: "LandLink Platform",
+    description: "A real estate platform connecting landowners with potential developers and investors through advanced property search and market analytics.",
+    role: "Full Stack Developer & Data Analyst",
+    contributions: [
+      "Created property search with advanced filters and map integration.",
+      "Developed analytics dashboard for property valuation and market trends.",
+      "Implemented secure document sharing and electronic signature capabilities.",
+      "Built recommendation engine for matching properties with investor preferences."
+    ],
+    outcomes: [
+      "Facilitates connections between landowners and potential investors/developers.",
+      "Provides advanced property search with comprehensive filtering options.",
+      "Offers market analytics and property valuation tools for informed decision making.",
+      "Supports secure document management and electronic transaction processing."
+    ],
+    imagePath: "assets/landlink.jpeg",
+  ),
+  Project(
+    title: "SurroLink Surrogacy Platform",
+    description: "A sensitive and secure platform connecting intended parents with surrogate mothers, providing comprehensive support throughout the surrogacy journey.",
+    role: "Full Stack Developer",
+    contributions: [
+      "Developed secure messaging and medical record sharing system.",
+      "Created matching algorithm based on medical compatibility and preferences.",
+      "Implemented calendar and scheduling system for medical appointments.",
+      "Built support community features with moderated forums."
+    ],
+    outcomes: [
+      "Connects intended parents with surrogate mothers through careful matching processes.",
+      "Provides secure communication and medical information sharing capabilities.",
+      "Offers comprehensive scheduling and appointment management tools.",
+      "Maintains strict data security and compliance with medical privacy regulations."
+    ],
+    imagePath: "assets/surrolink.jpeg",
+  ),
+];

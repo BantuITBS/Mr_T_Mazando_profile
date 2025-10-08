@@ -23,7 +23,7 @@ flutter:
   assets:
     - assets/profile.jpeg
     - assets/performa360.jpeg
-    - assets/afrodating.jpeg
+    - assets/afro.jpeg
     - assets/webcraft.jpeg
     - assets/aupair_connect.jpeg
     - assets/landlink.jpeg
@@ -31,6 +31,7 @@ flutter:
     - assets/TE.jpeg
     - assets/cv.jpeg
     - assets/lease_agreement.jpeg
+    - assets/excel_automation.jpeg
   fonts:
     - family: Roboto
       fonts:
