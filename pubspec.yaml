@@ -21,17 +21,16 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/profile.jpeg
-    - assets/performa360.jpeg
-    - assets/afro.jpeg
-    - assets/webcraft.jpeg
-    - assets/aupair_connect.jpeg
-    - assets/landlink.jpeg
-    - assets/surrolink.jpeg
-    - assets/TE.jpeg
-    - assets/cv.jpeg
-    - assets/lease_agreement.jpeg
-    - assets/excel_automation.jpeg
+    - assets/assets/profile.jpeg
+    - assets/assets/performa360.jpeg
+    - assets/assets/afro.jpeg
+    - assets/assets/webcraft.jpeg
+    - assets/assets/aupair_connect.jpeg
+    - assets/assets/landlink.jpeg
+    - assets/assets/surrolink.jpeg
+    - assets/assets/TE.jpeg
+    - assets/assets/cv.jpeg
+    - assets/assets/lease_agreement.jpeg
   fonts:
     - family: Roboto
       fonts:

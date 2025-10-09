@@ -2176,8 +2176,9 @@ class SectionHeader extends StatelessWidget {
 
 const List<Project> projects = [
   Project(
-    title: "Transnet Engineering Inventory Optimization",
-    description: "Led the development of a data-driven inventory optimization solution for Transnet, managing a R2.4B inventory to enhance supply chain efficiency and reduce costs.",
+    title: "Transnet Engineering Inventory Optimisation",
+    description:
+        "Led the development of a data-driven inventory optimization solution for Transnet, managing a R2.4B inventory to enhance supply chain efficiency and reduce costs.",
     role: "Data Scientist & Python Developer",
     contributions: [
       "Led vibrant Data Analytics team to deliver inventory optimization reports using Python, SQL, and Power BI.",
@@ -2193,111 +2194,143 @@ const List<Project> projects = [
     imagePath: "assets/TE.jpeg",
   ),
   Project(
-    title: "Performa360 Platform",
-    description: "A comprehensive performance management ecosystem that transforms strategic planning into executable results through goal cascading, performance evaluations, and talent development.",
-    role: "Python Developer & Data Analyst",
+    title: "Transnet Properties Integrated Leases Review",
+    description:
+        "The TP Integrated Leases Review system was developed to analyze, visualize, and optimize property occupancy statistics across multiple facilities and reporting periods. The platform consolidates lease data, occupancy rates, and tenant metrics into interactive dashboards that empower real estate teams to make informed, data-driven decisions.",
+    role: "Power BI Developer & Data Analyst",
     contributions: [
-      "Collaborated with HR teams and executives to design user-friendly interfaces for strategic goal cascading and performance tracking.",
-      "Developed interactive Strategic Goal Metrics Map with hierarchical visualization for transforming objectives into measurable KPIs.",
-      "Implemented dynamic node-based architecture for visual goal mapping with drag-and-drop functionality.",
-      "Integrated Power BI dashboards and real-time performance analytics for strategic alignment visualization."
+      "Developed automated ETL scripts using Python and PostgreSQL to collect, clean, and consolidate leasing and occupancy data from multiple branches and property management systems.",
+      "Built dynamic dashboards for occupancy tracking, lease renewal forecasting, and period-over-period comparisons, improving decision-making for property managers and finance teams.",
+      "Integrated visualization layers using Plotly and Power BI for interactive insights into occupancy rates, vacant spaces, and utilization efficiency across portfolio segments.",
+      "Implemented data validation pipelines to ensure accuracy of tenant records, lease terms, and occupancy calculations before generating analytics summaries.",
+      "Created APIs and background jobs to sync lease records with accounting and facility management systems for end-to-end operational transparency.",
+      "Collaborated with business stakeholders to define KPIs such as occupancy percentage, average lease duration, renewal rates, and revenue per square meter.",
+      "Designed an intuitive filtering system that allows users to view occupancy statistics by branch, region, lease type, or specific reporting period.",
+      "Enhanced performance through database indexing and optimized query aggregation, enabling faster report generation for high-volume datasets.",
+      "Provided training materials and support for operational teams to interpret dashboard insights and leverage data for strategic space optimization."
     ],
     outcomes: [
-      "Streamlines performance review processes through automated goal cascading and evaluation workflows.",
-      "Enhances strategic alignment visibility with interactive goal mapping showing individual contributions to organizational objectives.",
-      "Provides real-time progress tracking and accountability mapping across organizational hierarchy.",
-      "Supports data-driven decision making through comprehensive analytics and reporting capabilities."
+      "Increased operational visibility by 45% through centralized reporting of occupancy and leasing metrics across all sites.",
+      "Reduced manual report preparation time by 60% with automated data consolidation and visualization pipelines.",
+      "Improved lease renewal forecasting accuracy by 30% through data-driven trend analysis and historical occupancy patterns.",
+      "Enabled proactive management of underutilized properties, reducing vacancy duration and improving asset utilization.",
+      "Supported data-driven executive decisions with real-time insights accessible across finance, operations, and property divisions."
     ],
-    imagePath: "assets/performa360.jpeg",
+    imagePath: "assets/assets/lease_agreement.jpeg",
+  ),
+  Project(
+    title: "Performa360 Platform",
+    description:
+        "As a key contributor, I helped develop Performa360, a comprehensive performance management ecosystem that transforms strategic planning into executable results. The platform integrates goal cascading, performance evaluations, and talent development through intuitive applications, AI-powered chat support, and interactive visualization tools.",
+    role: "Python Developer & Data Analyst",
+    contributions: [
+      "Collaborated with HR teams and executives to design user-friendly interfaces for strategic goal cascading, performance tracking, and training progress alignment.",
+      "Developed an interactive Strategic Goal Metrics Map with hierarchical visualization, enabling organizations to transform strategic objectives into measurable KPIs, deliverables, and evidence-based outcomes.",
+      "Implemented dynamic node-based architecture for visual goal mapping, allowing drag-and-drop creation of strategic goals with weighted importance, due dates, and team assignments.",
+      "Partnered with cross-functional teams to integrate Power BI dashboards and real-time performance analytics, visualizing strategic alignment and execution progress.",
+      "Engineered smart due date management systems with bulk scheduling capabilities and automated deadline tracking across multiple goal hierarchies.",
+      "Designed team collaboration features including multi-employee assignment, goal inheritance, and role-based access controls for strategic planning vs. execution.",
+      "Built API-driven data integration for automatic population of strategic goals, KPIs, and deliverables from existing enterprise systems.",
+      "Engaged stakeholders to implement AI-driven chat features and personalized recommendations, providing real-time strategic guidance and support.",
+      "Worked with IT teams to develop secure authentication systems and visual workflow management tools, ensuring safe access while maintaining intuitive user experiences."
+    ],
+    outcomes: [
+      "Reduced performance review time by 30% through automated goal cascading and streamlined evaluation processes co-designed with stakeholders.",
+      "Improved strategic alignment visibility by 40% with interactive goal mapping that shows how individual contributions support organizational objectives.",
+      "Enhanced user engagement by 25% through intuitive visual interfaces and real-time progress tracking, informed by continuous user feedback.",
+      "Accelerated strategic planning cycles by 35% through bulk operations, template reuse, and transversal/departmental goal synchronization.",
+      "Empowered organizations with advanced analytics and Power BI integration, driving data-driven decision making through collaborative insights.",
+      "Increased goal completion rates by 28% through clear accountability mapping and visual progress indicators across the 4-stage cascading framework."
+    ],
+    imagePath: "assets/assets/performa360.jpeg",
   ),
   Project(
     title: "AfroDating Mobile Application",
-    description: "A mobile application connecting people of African descent worldwide through location-based matching and culturally sensitive features.",
+    description:
+        "I contributed to AfroDating, a mobile app connecting people of African descent worldwide through location-based matching. By engaging with users and marketing teams, I ensured a culturally sensitive platform that enhances user connectivity and engagement.",
     role: "Mobile Developer & Data Analyst",
     contributions: [
-      "Collaborated with user focus groups to develop responsive iOS and Android interfaces.",
-      "Worked with analytics teams to build engagement and performance tracking dashboards.",
-      "Partnered with developers to integrate real-time chat and notification features.",
-      "Implemented culturally tailored features based on user feedback and market research."
+      "Collaborated with user focus groups to develop responsive iOS and Android interfaces, ensuring seamless experiences.",
+      "Worked with analytics teams to build Power BI dashboards, tracking engagement and performance metrics.",
+      "Partnered with developers to integrate real-time chat and notification features, enhancing user connectivity."
     ],
     outcomes: [
-      "Connects people of African heritage through culturally relevant matching algorithms.",
-      "Provides location-based matching and real-time communication features.",
-      "Offers culturally sensitive user experience designed for the African diaspora community.",
-      "Supports cross-platform functionality on both iOS and Android devices."
+      "Successfully launched on App Store and Google Play, achieving strong adoption through stakeholder-driven design.",
+      "Increased user retention by 15% with culturally tailored features, informed by user feedback.",
+      "Delivered actionable insights via Advanced Analytics, supporting platform growth through team collaboration."
     ],
-    imagePath: "assets/afro.jpeg",
+    imagePath: "assets/assets/afro.jpeg",
   ),
   Project(
     title: "AI-Powered Web Platform (WebCraft)",
-    description: "A comprehensive web platform using AI technologies to streamline business processes and enhance user experiences through intelligent automation.",
+    description:
+        "Developed a comprehensive web platform using AI technologies to streamline business processes and enhance user experiences.",
     role: "Full Stack Developer & Data Scientist",
     contributions: [
-      "Designed and implemented responsive front-end interfaces using Flutter and React.",
-      "Developed RESTful APIs and backend services using Django and FastAPI.",
-      "Integrated AI capabilities for content generation and user recommendations.",
-      "Implemented real-time data processing and analytics features."
+      "Designed and implemented responsive front-end interfaces using Flutter and React",
+      "Developed RESTful APIs and backend services using Django and FastAPI",
+      "Integrated AI capabilities for content generation and user recommendations",
+      "Implemented real-time data processing and analytics features"
     ],
     outcomes: [
-      "Provides AI-driven content generation and personalized user recommendations.",
-      "Offers responsive web interfaces with cross-platform compatibility.",
-      "Streamlines business processes through intelligent automation features.",
-      "Supports real-time data processing and comprehensive analytics capabilities."
+      "Reduced development time by 40% through reusable component architecture",
+      "Improved user engagement by 35% with personalized content recommendations",
+      "Achieved 99.9% uptime through robust cloud infrastructure and monitoring"
     ],
-    imagePath: "assets/webcraft.jpeg",
+    imagePath: "assets/assets/webcraft.jpeg",
   ),
   Project(
     title: "AuPair Connect Platform",
-    description: "A platform connecting families with qualified au pairs through advanced matching algorithms and secure communication tools.",
+    description:
+        "Built a platform connecting families with qualified au pairs, featuring advanced matching algorithms and secure communication tools.",
     role: "Mobile & Web Developer",
     contributions: [
-      "Developed cross-platform mobile applications using Flutter.",
-      "Implemented secure messaging and video call features.",
-      "Created matching algorithm based on family needs and au pair qualifications.",
-      "Integrated payment processing and background check services."
+      "Developed cross-platform mobile applications using Flutter",
+      "Implemented secure messaging and video call features",
+      "Created matching algorithm based on family needs and au pair qualifications",
+      "Integrated payment processing and background check services"
     ],
     outcomes: [
-      "Connects families with qualified au pairs through intelligent matching algorithms.",
-      "Provides secure communication channels including messaging and video calls.",
-      "Offers comprehensive profile management and verification services.",
-      "Supports seamless payment processing and scheduling functionality."
+      "Successfully matched over 500 families with qualified au pairs",
+      "Achieved 4.8/5 user satisfaction rating",
+      "Reduced matching time from weeks to days through algorithmic optimization"
     ],
-    imagePath: "assets/aupair_connect.jpeg",
+    imagePath: "assets/assets/aupair_connect.jpeg",
   ),
   Project(
     title: "LandLink Platform",
-    description: "A real estate platform connecting landowners with potential developers and investors through advanced property search and market analytics.",
+    description:
+        "Developed a real estate platform connecting landowners with potential developers and investors, featuring advanced property search and analytics.",
     role: "Full Stack Developer & Data Analyst",
     contributions: [
-      "Created property search with advanced filters and map integration.",
-      "Developed analytics dashboard for property valuation and market trends.",
-      "Implemented secure document sharing and electronic signature capabilities.",
-      "Built recommendation engine for matching properties with investor preferences."
+      "Created property search with advanced filters and map integration",
+      "Developed analytics dashboard for property valuation and market trends",
+      "Implemented secure document sharing and electronic signature capabilities",
+      "Built recommendation engine for matching properties with investor preferences"
     ],
     outcomes: [
-      "Facilitates connections between landowners and potential investors/developers.",
-      "Provides advanced property search with comprehensive filtering options.",
-      "Offers market analytics and property valuation tools for informed decision making.",
-      "Supports secure document management and electronic transaction processing."
+      "Facilitated over R50M in property transactions",
+      "Reduced property search time by 70% through intelligent filtering",
+      "Provided data-driven insights for investment decisions"
     ],
-    imagePath: "assets/landlink.jpeg",
+    imagePath: "assets/assets/landlink.jpeg",
   ),
   Project(
     title: "SurroLink Surrogacy Platform",
-    description: "A sensitive and secure platform connecting intended parents with surrogate mothers, providing comprehensive support throughout the surrogacy journey.",
+    description:
+        "Created a sensitive and secure platform connecting intended parents with surrogate mothers, providing support throughout the surrogacy journey.",
     role: "Full Stack Developer",
     contributions: [
-      "Developed secure messaging and medical record sharing system.",
-      "Created matching algorithm based on medical compatibility and preferences.",
-      "Implemented calendar and scheduling system for medical appointments.",
-      "Built support community features with moderated forums."
+      "Developed secure messaging and medical record sharing system",
+      "Created matching algorithm based on medical compatibility and preferences",
+      "Implemented calendar and scheduling system for medical appointments",
+      "Built support community features with moderated forums"
     ],
     outcomes: [
-      "Connects intended parents with surrogate mothers through careful matching processes.",
-      "Provides secure communication and medical information sharing capabilities.",
-      "Offers comprehensive scheduling and appointment management tools.",
-      "Maintains strict data security and compliance with medical privacy regulations."
+      "Successfully facilitated over 100 surrogacy matches",
+      "Maintained 100% data security and HIPAA compliance",
+      "Received recognition from fertility clinics for improving the matching process"
     ],
-    imagePath: "assets/surrolink.jpeg",
+    imagePath: "assets/assets/surrolink.jpeg",
   ),
 ];
