@@ -367,7 +367,17 @@ class _CVHomePageState extends State<CVHomePage> with SingleTickerProviderStateM
             child: Transform.rotate(
               angle: _rotationAnimation.value,
               child: IconButton(
-                icon: const Icon(Icons.menu, color: Colors.white),
+                icon: ClipOval(
+                  child: Image.asset(
+                    'assets/assets/profile.jpeg',
+                    width: 24,
+                    height: 24,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Icon(Icons.person, color: Colors.white);
+                    },
+                  ),
+                ),
                 onPressed: _handleMenuTap,
               ),
             ),
@@ -1762,6 +1772,7 @@ class CertificationTile extends StatelessWidget {
   }
 }
 
+
 class AccomplishmentsContent extends StatelessWidget {
   final Color primaryColor;
 
@@ -2191,7 +2202,7 @@ const List<Project> projects = [
       "Reduced inventory costs by 15% through predictive analytics.",
       "Improved supply chain decision-making with actionable Power BI dashboards."
     ],
-    imagePath: "assets/TE.jpeg",
+    imagePath: "assets/assets/TE.jpeg",
   ),
   Project(
     title: "Transnet Properties Integrated Leases Review",
