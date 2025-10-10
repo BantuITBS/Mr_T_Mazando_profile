@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+  -->
   <base href="/Mr_T_Mazando_profile/">
 
   <meta charset="UTF-8">
@@ -20,10 +30,7 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
-  <!-- Cache-busting query added to force fresh load -->
-  <script src="flutter_bootstrap.js?v=20251010" async></script>
-
-  <!-- Flush service workers to prevent stale content -->
+  <!-- Service Worker Flush -->
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.getRegistrations().then(regs => {
@@ -31,5 +38,8 @@
       });
     }
   </script>
+
+  <!-- Cache-Busting Bootstrap -->
+  <script src="flutter_bootstrap.js?v=20251010-1625" async></script>
 </body>
 </html>
